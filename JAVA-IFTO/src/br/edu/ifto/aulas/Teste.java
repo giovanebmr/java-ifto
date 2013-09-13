@@ -1,4 +1,4 @@
-package Aulas;
+package br.edu.ifto.aulas;
 
 /*
  * To change this template, choose Tools | Templates
