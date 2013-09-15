@@ -10,12 +10,12 @@ package br.edu.ifto.aula7;
  */
 public interface InterfaceCalculadora {
     
-    double somar();
+    double somar(double x, double y);
     
-    double subtrair();
+    double subtrair(double x, double y);
     
-    double dividir();
+    double dividir(double x, double y);
     
-    double multiplicar();
+    double multiplicar(double x, double y);
     
 }
