@@ -57,6 +57,11 @@ public class CalculadoraAula7 extends javax.swing.JFrame {
         });
 
         jButton2.setText("-");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("/");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -66,6 +71,11 @@ public class CalculadoraAula7 extends javax.swing.JFrame {
         });
 
         jButton4.setText("*");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("1º Num ");
 
@@ -152,6 +162,22 @@ Calculadora s = new Calculadora();
       double r = s.dividir (d1, d2);
        jTextField3.setText(String.valueOf(r));
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       Calculadora s = new Calculadora();
+      double d1 = Double.parseDouble(jTextField1.getText());
+      double d2 = Double.parseDouble(jTextField2.getText());
+      double r = s.subtrair (d1, d2);
+       jTextField3.setText(String.valueOf(r));
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+Calculadora s = new Calculadora();
+      double d1 = Double.parseDouble(jTextField1.getText());
+      double d2 = Double.parseDouble(jTextField2.getText());
+      double r = s.multiplicar (d1, d2);
+       jTextField3.setText(String.valueOf(r));
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
