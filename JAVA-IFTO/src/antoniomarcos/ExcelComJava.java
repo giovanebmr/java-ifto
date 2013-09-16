@@ -8,7 +8,7 @@ package antoniomarcos;
  *
  * @author aluno
  */
-
+/*
 
 import java.io.File;
 import java.io.IOException;
@@ -23,19 +23,19 @@ public class ExcelComJava {
     public static void main(String[] args) 
     throws BiffException, IOException 
     {
-        /**
-        * Carrega a planilha
-        */
+        
+        //Carrega a planilha
+       
         Workbook workbook = Workbook.getWorkbook(new File("exemplo.xls"));
-        /**
-        * Aqui é feito o controle de qual aba do xls 
-        * será realiza a leitura dos dados
-        */
+       
+        //Aqui é feito o controle de qual aba do xls 
+        // será realiza a leitura dos dados
+       
         Sheet sheet = workbook.getSheet(0);
 
-        /**
-        * Numero de linhas com dados do xls
-        */
+       
+        // Numero de linhas com dados do xls
+        
         int linhas = sheet.getRows();
         
         for(int i = 0; i < linhas; i ++ )
@@ -51,3 +51,6 @@ public class ExcelComJava {
     }
 
 }
+
+
+*/
