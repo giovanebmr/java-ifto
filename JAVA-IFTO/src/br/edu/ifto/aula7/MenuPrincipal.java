@@ -19,6 +19,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         buttonGroup1.add(jRadioButton2);
         buttonGroup1.add(jRadioButton3);
         buttonGroup1.add(jRadioButton4);
+        this.setLocation(200, 200);
     }
 
     /**
@@ -209,7 +210,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         //somar
         if(buttonGroup1.getSelection().equals(jRadioButton1.getModel())){
             
-            Calculadora c = new Calculadora();
+            InterfaceCalculadora c = new Calculadora();
             
             double x = Double.parseDouble(jTextField4.getText());
             double y = Double.parseDouble(jTextField5.getText());
@@ -220,7 +221,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         //subtrair
         if(buttonGroup1.getSelection().equals(jRadioButton2.getModel())){
             
-            Calculadora c = new Calculadora();
+            InterfaceCalculadora c = new Calculadora();
             
             double x = Double.parseDouble(jTextField4.getText());
             double y = Double.parseDouble(jTextField5.getText());
@@ -231,7 +232,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         //multiplicar
         if(buttonGroup1.getSelection().equals(jRadioButton3.getModel())){
             
-            Calculadora c = new Calculadora();
+            InterfaceCalculadora c = new Calculadora();
             
             double x = Double.parseDouble(jTextField4.getText());
             double y = Double.parseDouble(jTextField5.getText());
@@ -242,7 +243,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         //dividir
         if(buttonGroup1.getSelection().equals(jRadioButton4.getModel())){
             
-            Calculadora c = new Calculadora();
+            InterfaceCalculadora c = new Calculadora();
             
             double x = Double.parseDouble(jTextField4.getText());
             double y = Double.parseDouble(jTextField5.getText());
