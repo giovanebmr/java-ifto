@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package nayron;
+package Nayron_dos_anjos;
 
 import java.util.Scanner;
 import javax.swing.JOptionPane;
