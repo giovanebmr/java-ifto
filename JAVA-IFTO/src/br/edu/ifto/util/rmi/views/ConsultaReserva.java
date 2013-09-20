@@ -11,13 +11,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import br.edu.ifto.util.rmi.beans.Aluno;
 import br.edu.ifto.util.rmi.beans.Livro;
 import br.edu.ifto.util.rmi.beans.Reserva;
 import br.edu.ifto.util.rmi.dao.DaoCompleto;
 import br.edu.ifto.util.rmi.dao.IDaoCompleto;
-import br.edu.ifto.util.rmi.dao.ILivro;
 import br.edu.ifto.util.rmi.dao.NotFoundException;
 
 /**

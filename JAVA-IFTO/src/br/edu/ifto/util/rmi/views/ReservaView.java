@@ -15,9 +15,7 @@ import br.edu.ifto.util.rmi.beans.Aluno;
 import br.edu.ifto.util.rmi.beans.Livro;
 import br.edu.ifto.util.rmi.beans.Reserva;
 import br.edu.ifto.util.rmi.dao.DaoCompleto;
-import br.edu.ifto.util.rmi.dao.IAluno;
 import br.edu.ifto.util.rmi.dao.IDaoCompleto;
-import br.edu.ifto.util.rmi.dao.ILivro;
 import br.edu.ifto.util.rmi.dao.NotFoundException;
 
 /**
@@ -280,8 +278,7 @@ public class ReservaView extends javax.swing.JFrame {
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(nome));
     }
-    private IAluno iAluno;
-    private ILivro iLivro;
+
     private List listaLivro;
     private List listaAluno;
 
