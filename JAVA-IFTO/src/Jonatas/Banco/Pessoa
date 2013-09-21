@@ -1,0 +1,7 @@
+public class Pessoa {
+  private Integer id;
+  private String Nome;
+  private String Endereco;
+
+
+}
