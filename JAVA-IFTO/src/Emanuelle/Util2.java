@@ -19,7 +19,7 @@ public class Util2 {
 
         Util u = new Util();
 
-        while (!u.isNumero((s = JOptionPane.showInputDialog("Digite valor para s1")))) {
+        while (!u.isNumero((s = JOptionPane.showInputDialog("Digite valor para s")))) {
             JOptionPane.showMessageDialog(null, "Digite apenas numeros!!");
         }
         while (!u.isNumero((s2 = JOptionPane.showInputDialog("Digite valor para s2")))) {
