@@ -31,5 +31,8 @@ public class JogadorDao extends DBConnection{
         stmt.setString(2, jogador.getLogin());
         stmt.setString(3, jogador.getEmail());
         stmt.setString(4, jogador.getSenha());
+        
+        stmt.execute();
+        stmt.close();
     }
 }
