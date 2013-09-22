@@ -1,4 +1,4 @@
-public class Conta{
+public class ContaCorrente{
 
   private int Numero;
   private Double Saldo;
