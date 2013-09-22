@@ -11,6 +11,7 @@ import java.io.Serializable;
  * @author Jonatas Carvalho
  */
 public class Jogador implements java.io.Serializable{
+    private int Id;
     private String Nome;
     private String Login;
     private String Email;
@@ -18,6 +19,10 @@ public class Jogador implements java.io.Serializable{
     
     public Jogador(){
     
+    }
+    
+    public int getId(){
+        return this.Id;
     }
     
     public void setNome(String nome){
