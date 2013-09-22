@@ -15,7 +15,7 @@ import javax.swing.JButton;
  * @version 1.0.1
  * @since 22/09/2013
  */
-public class JogoRN {
+public class JogoRNOn {
 
     private boolean jogadaX;
     private boolean jogadaY;
@@ -44,7 +44,7 @@ public class JogoRN {
      * @param x dimensão x do vetor buttonMatriz e do vetor lances
      * @param x dimensão y do vetor buttonMatriz e do vetor lances
      */
-    public JogoRN(JButton buttonMatriz[][], int x, int y) {
+    public JogoRNOn(JButton buttonMatriz[][], int x, int y) {
         this.buttonMatriz = buttonMatriz;
         this.matriz = new boolean[x][y];
         this.lances = new char[x][y];

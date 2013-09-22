@@ -7,8 +7,8 @@ package br.edu.ifto.aula8;
 import javax.swing.JOptionPane;
 
 /**
- *
  * @author Giovane
+ * @see 22/09/2013
  */
 public class TesteUtil {
 
