@@ -7,9 +7,6 @@ package Tayla;
  * and open the template in the editor.
  */
 
-
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author Tayla
@@ -17,7 +14,7 @@ import javax.swing.JOptionPane;
 
 public class Util {
 /**
- * Retorna verdadeiro se for possíve a conversão e falso se não.
+ * Retorna verdadeiro se for possível a conversão e falso se não.
  */
     public boolean isNumero(String numero) {
         try {
@@ -27,7 +24,7 @@ public class Util {
             return false;
           }
     }
-/** Não a controle nesse método, retorna sempre true
+/** Não há controle nesse método, retorna sempre true
  */
     public boolean isNumero2(String numero) throws NumberFormatException {
         Integer.parseInt(numero);
