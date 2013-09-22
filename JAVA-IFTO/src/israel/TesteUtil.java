@@ -2,8 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package israel;
-
+package br.edu.ifto.aula8;
 
 import javax.swing.JOptionPane;
 
