@@ -1,5 +1,10 @@
 package Tayla;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.codec.digest.DigestUtils;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -53,6 +58,17 @@ public class FormJogador extends javax.swing.JFrame {
         jLabel5.setText("Login:");
 
         BotaoSalvar.setText("Salvar");
+        BotaoSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotaoSalvarActionPerformed(evt);
+            }
+        });
+
+        TxtSenha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TxtSenhaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -149,6 +165,33 @@ public class FormJogador extends javax.swing.JFrame {
     private void TxtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtNomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TxtNomeActionPerformed
+
+    private void BotaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotaoSalvarActionPerformed
+        Jogador jogador = new Jogador();
+        
+        jogador.setEmail(TxtEmail.getText());
+        jogador.setLogin(TxtLogin.getText());
+        jogador.setNome(TxtNome.getText());
+        jogador.setSenha(DigestUtils.sha512Hex(TxtSenha.getPassword().toString()));
+        
+        try {
+            JogadorDao jogadorDao = new JogadorDao();
+            jogadorDao.addJogador(jogador);
+            
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FormJogador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(FormJogador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+    }//GEN-LAST:event_BotaoSalvarActionPerformed
+
+    private void TxtSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtSenhaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TxtSenhaActionPerformed
 
     /**
      * @param args the command line arguments
