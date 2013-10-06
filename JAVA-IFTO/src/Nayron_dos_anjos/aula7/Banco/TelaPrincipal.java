@@ -96,14 +96,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ListarUsusariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListarUsusariosActionPerformed
-        try {
-            ListarUsuarios lis = new ListarUsuarios();
-            lis.setVisible(rootPaneCheckingEnabled);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ListarUsuarios lu = new ListarUsuarios();
+        
+        
+        lu.setVisible(rootPaneCheckingEnabled);
+           
     }//GEN-LAST:event_ListarUsusariosActionPerformed
 
     private void Cad_usuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Cad_usuariosActionPerformed
