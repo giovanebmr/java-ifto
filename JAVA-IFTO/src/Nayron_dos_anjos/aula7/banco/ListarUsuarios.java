@@ -5,6 +5,7 @@
 package Nayron_dos_anjos.aula7.banco;
 
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,7 +65,7 @@ public class ListarUsuarios extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(234, Short.MAX_VALUE))
+                .addContainerGap(228, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -113,7 +114,7 @@ public class ListarUsuarios extends javax.swing.JFrame {
             public void run() {
                 try {
                     new ListarUsuarios().setVisible(true);
-                } catch (ClassNotFoundException | SQLException ex) {
+                } catch (        ClassNotFoundException | SQLException ex) {
                     Logger.getLogger(ListarUsuarios.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -127,18 +128,14 @@ public class ListarUsuarios extends javax.swing.JFrame {
 
     private void preenchercomUsusario() throws ClassNotFoundException, SQLException {
         JogadorDao jdao = new JogadorDao();
-
+        String vetor[] = new String[10];
+        int i=0;
         List<Jogador> Jogadores = jdao.listaUsuarios();
-
-        String vetor[] = new String[Jogadores.size()];
-        int i = 0;
-
-        for (Jogador j : Jogadores) {
-            vetor[i] = j.getNome();
-
-
+        for(Iterator it = Jogadores.iterator();it.hasNext();){
+            
+            
         }
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(vetor));
+         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
     }
 }

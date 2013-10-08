@@ -150,8 +150,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton Cad_usuarios;
     private javax.swing.JButton DeletarUsuario;
     private javax.swing.JButton ListarUsusarios;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     // End of variables declaration//GEN-END:variables
 }
