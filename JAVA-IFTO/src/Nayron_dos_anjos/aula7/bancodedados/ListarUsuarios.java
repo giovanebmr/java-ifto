@@ -126,16 +126,20 @@ public class ListarUsuarios extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
-    private void preenchercomUsusario() throws ClassNotFoundException, SQLException {
+     private void preenchercomUsusario() throws ClassNotFoundException, SQLException {
         JogadorDao jdao = new JogadorDao();
-        String vetor[] = new String[10];
-        int i=0;
+
         List<Jogador> Jogadores = jdao.listaUsuarios();
-        for(Iterator it = Jogadores.iterator();it.hasNext();){
-            
-            
+
+        String vetor[] = new String[Jogadores.size()];
+        int i = 0;
+
+        for (Jogador j : Jogadores) {
+            vetor[i] = j.getNome();
+
+
         }
-         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(vetor));
 
     }
 }
