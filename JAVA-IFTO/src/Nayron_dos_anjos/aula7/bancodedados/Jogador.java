@@ -1,5 +1,5 @@
 
-package Nayron_dos_anjos.aula7.Banco;
+package Nayron_dos_anjos.aula7.bancodedados;
 
 /**
  *
@@ -10,7 +10,7 @@ public class Jogador implements java.io.Serializable{
     private String login;
     private String email;
     private String senha;
-    private int ip;
+    private int id;
     
     public Jogador(){
         
@@ -75,10 +75,12 @@ public class Jogador implements java.io.Serializable{
     /**
      * @return the ip
      */
-    public int getIp() {
-        return this.ip;
+    public int getId() {
+        return this.id;
     }
 
-    
+      public void setid(int id) {
+        this.id = id;
+    }
     
 }

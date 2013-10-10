@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Nayron_dos_anjos.aula7.Banco;
+package Nayron_dos_anjos.aula7.bancodedados;
 
 /**
  *

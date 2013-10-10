@@ -8,7 +8,10 @@ package Tayla;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -37,5 +40,34 @@ public class JogadorDao extends DBConnection{
     stmt.execute();
     stmt.close();
         
-    }       
+    } 
+    
+    public List <Jogador> listaUsuarios() throws SQLException{
+     
+     String sql = "SELECT * FROM JONATAS.JOGADOR";
+     PreparedStatement stmt;
+     ResultSet rs;
+     List jogadores = new LinkedList<>();
+     Jogador jogador;
+     
+     stmt = conn.prepareStatement(sql);
+     
+     rs = stmt.executeQuery();
+     
+     while(rs.next()) {
+     
+         jogadores.add(getObjeto(rs));
+         
+     }
+        return null;
+  } 
+ 
+  public Jogador getObjeto(ResultSet rs) throws SQLException{
+  
+      Jogador jogador = new Jogador();
+      jogador.setId(rs.getInt("id"));
+      jogador.setNome(rs.getString("nome"));
+      jogador.setEmail(rs.getString("email"));
+      return jogador;
+  }
 }
