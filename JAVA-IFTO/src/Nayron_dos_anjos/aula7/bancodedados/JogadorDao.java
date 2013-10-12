@@ -37,6 +37,29 @@ public class JogadorDao extends DBConnection {
         stmt.close();
 
     }
+    public void deleteUsuario(int id) throws SQLException {
+        String SQL = "DELETE FROM NAYRON.jogador WHERE id=?";
+
+        PreparedStatement stmt = conn.prepareStatement(SQL);
+
+        stmt.execute();
+        stmt.close();
+    }
+
+    public void AlterarUsuario(Jogador jogador) throws SQLException {
+        String SQL = "UPDATE NAYRON.jogador SET nome=?,login=?,email=?,senha=?,WHERE id=?";
+
+        PreparedStatement stmt = conn.prepareStatement(SQL);
+
+        stmt.setString(1, jogador.getNome());
+        stmt.setString(2, jogador.getLogin());
+        stmt.setString(3, jogador.getEmail());
+        stmt.setString(4, jogador.getSenha());
+        stmt.setInt(5, jogador.getId());
+
+        stmt.execute();
+        stmt.close();
+    }
 
     /**
      *
