@@ -67,7 +67,7 @@ public class JogadorDao extends DBConnection {
      */
     public List<Jogador> listaUsuarios() throws SQLException {
 
-        String sql = "SELECT * FROM Jogo.jogador";
+        String sql = "select * from NAYRON.JOGADOR";
         PreparedStatement stmt;
         ResultSet rs;
 
