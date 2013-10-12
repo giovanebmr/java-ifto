@@ -8,14 +8,14 @@ package Emanuelle.aula7.banco;
  *
  * @author aluno
  */
-public class Jogador {
+public class Usuario {
     private String nome;
     private String login;
     private String email;
     private String senha;
     private int id;
     
-    public Jogador () {
+    public Usuario () {
 }
     public void setNome (String nome){
         this.nome=nome;

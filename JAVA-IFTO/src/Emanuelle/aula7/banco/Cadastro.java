@@ -235,7 +235,7 @@ public class Cadastro extends javax.swing.JFrame {
         try {
             
             JogadorDao jd = new JogadorDao();
-            Jogador j = new Jogador();
+            Usuario j = new Usuario();
             j.setEmail(this.jTextField1.getText());
             j.setNome(this.jTextField2.getText());
             j.setSenha(this.jTextField3.getText());

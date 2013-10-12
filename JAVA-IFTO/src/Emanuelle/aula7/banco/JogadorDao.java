@@ -22,8 +22,10 @@ public class JogadorDao extends DBConnection {
     public JogadorDao() throws ClassNotFoundException, SQLException {
         this.conn = this.getMyDBConnection();
     }
+    
+    
 
-    public void addJogador(Jogador jogador) throws SQLException {
+    public void addJogador(Usuario jogador) throws SQLException {
         String SQL = "insert into Emanuelle.jogador (nome,login,email,senha) values (?,?,?,?)";
 
 
@@ -39,7 +41,7 @@ public class JogadorDao extends DBConnection {
 
     }
 
-    public List<Jogador> listarUsuario() throws SQLException {
+    public List<Usuario> listarUsuario() throws SQLException {
 
         String sql = "select * from EMANUELLE.JOGADOR";
         PreparedStatement stmt;
@@ -57,10 +59,10 @@ public class JogadorDao extends DBConnection {
         return jogadores;
     }
 
-    public Jogador getObjeto(ResultSet rs) throws SQLException {
-        Jogador jogador = new Jogador();
+    public Usuario getObjeto(ResultSet rs) throws SQLException {
+        Usuario jogador = new Usuario();
 
-        jogador.setId(rs.getInt("id"));
+        jogador.setId(rs.getInt("id_jogador"));
         jogador.setNome(rs.getString("nome"));
         jogador.setEmail(rs.getString("email"));
 
@@ -69,12 +71,12 @@ public class JogadorDao extends DBConnection {
     }
     
     public void deleteUsuario (int id){
-        String SQL = "DELETE from Emanuelle.jogador WHERE id = ?";
+        String SQL = "DELETE from Emanuelle.jogador WHERE id_jogador= ?";
         
     }
     
-    public void atulizarUsuario (Jogador jogador) throws SQLException{
-        String SQL = "UPDATE into Emanuelle.jogador WHERE id = ?";
+    public boolean atulizarUsuario (Usuario jogador) throws SQLException{
+       String SQL = " UPDATE Emanuelle.jogador SET nome=?, login=?, email=?," + " WHERE id_jogador=?, ";
 
 
         PreparedStatement stat = conn.prepareStatement(SQL);
@@ -85,10 +87,8 @@ public class JogadorDao extends DBConnection {
         stat.setString(4, jogador.getSenha());
         stat.setInt(5, jogador.getId());
         
-
-        stat.execute();
-        stat.close();
-
+        return stat.executeUpdate() > 0;
+        
     }
     
 }
