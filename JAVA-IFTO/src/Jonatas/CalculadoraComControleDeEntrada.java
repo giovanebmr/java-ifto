@@ -1,3 +1,5 @@
+package Jonatas;
+
 /*Calculadora com controle da entrada. Se o usuário digitar qualquer caractere que não seje um número válido
  * o método isNumero vai capturar a exceção (erro) que vai ocorrer no método parseInt() do objeto Integer
  * Se ocorrer realmente um erro de convesão de caracter para número, o método isNumero() retorna um valor false para o método main()

@@ -75,6 +75,19 @@ public class JogadorDao extends DBConnection{
          
          
      }
+     
+    public boolean DeletarJogador(Jogador jogador) throws SQLException{
+         String SQL = "delete from jonatas.jogador "
+                    + "where id_jogador=?";
+         
+         PreparedStatement stmt = conn.prepareStatement(SQL);
+         
+         stmt.setInt(1, jogador.getId());
+         
+         return stmt.executeUpdate() > 0; 
+         
+         
+     }
  
   public Jogador getObjeto(ResultSet rs) throws SQLException{
   
@@ -82,6 +95,7 @@ public class JogadorDao extends DBConnection{
       jogador.setId(rs.getInt("id_jogador"));
       jogador.setNome(rs.getString("nome"));
       jogador.setEmail(rs.getString("email"));
+      jogador.setLogin(rs.getString("login"));
       return jogador;
   }
 }

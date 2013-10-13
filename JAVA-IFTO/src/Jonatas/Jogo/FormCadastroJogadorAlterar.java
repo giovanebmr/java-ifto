@@ -3,10 +3,12 @@
  * and open the template in the editor.
  */
 package Jonatas.Jogo;
+import java.awt.Dialog;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
@@ -19,8 +21,8 @@ public class FormCadastroJogadorAlterar extends javax.swing.JFrame {
      * Creates new form FormCadastroJogadorJFrame
      */
     private Jogador jogador;
-    
-    public FormCadastroJogadorAlterar(Jogador jogador) {
+    private ListaDeUsuarios listaUsuarios;
+    public FormCadastroJogadorAlterar(Jogador jogador,ListaDeUsuarios listaUsuarios) {
         
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -29,7 +31,7 @@ public class FormCadastroJogadorAlterar extends javax.swing.JFrame {
         txtEmail.setText(jogador.getEmail());
         txtLogin.setText(jogador.getLogin());
         
-        
+        this.listaUsuarios = listaUsuarios;
     }
     
     /**
@@ -184,6 +186,7 @@ public class FormCadastroJogadorAlterar extends javax.swing.JFrame {
             JogadorDao jogadorDao = new JogadorDao();
             if (jogadorDao.AlterarJogador(jogador)){
                 JOptionPane.showMessageDialog(rootPane, "Alteração realizada com sucesso!");
+                listaUsuarios.preencheUsuarios();
             }else{
                 JOptionPane.showMessageDialog(rootPane, "Falha na Alteração!");
             };

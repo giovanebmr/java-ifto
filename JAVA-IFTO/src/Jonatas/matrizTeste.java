@@ -1,3 +1,5 @@
+package Jonatas;
+
 import java.util.Scanner;
 
 public class matrizTeste {

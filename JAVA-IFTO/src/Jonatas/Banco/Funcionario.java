@@ -1,3 +1,5 @@
+package Jonatas.Banco;
+
 public class Funcionario extends PessoaFisica {
 
   private String Matricula;

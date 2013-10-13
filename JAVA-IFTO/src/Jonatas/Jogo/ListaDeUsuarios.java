@@ -4,6 +4,7 @@
  */
 package Jonatas.Jogo;
 
+import java.awt.Dialog;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
@@ -25,6 +26,7 @@ public class ListaDeUsuarios extends javax.swing.JFrame {
         initComponents();
         preencheUsuarios();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
     }
 
     /**
@@ -40,6 +42,7 @@ public class ListaDeUsuarios extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,6 +62,13 @@ public class ListaDeUsuarios extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Deletar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -66,6 +76,7 @@ public class ListaDeUsuarios extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(59, 59, 59)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2)
                     .addComponent(jButton1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -82,7 +93,9 @@ public class ListaDeUsuarios extends javax.swing.JFrame {
                     .addComponent(jLabel1))
                 .addGap(76, 76, 76)
                 .addComponent(jButton1)
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2)
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -101,15 +114,42 @@ public class ListaDeUsuarios extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Jogador jogador = jogadores.get(jComboBox1.getSelectedIndex());   
-        FormCadastroJogadorAlterar formCadastro = new FormCadastroJogadorAlterar(jogador);
-        formCadastro.setVisible(rootPaneCheckingEnabled);
+       
+        try {
+             Jogador jogador = jogadores.get(jComboBox1.getSelectedIndex());   
+            new FormCadastroJogadorAlterar(jogador, this).setVisible(rootPaneCheckingEnabled);
+            
+            preencheUsuarios();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ListaDeUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            // TODO add your handling code here:
+            JogadorDao jogadorDao = new JogadorDao();
+            Jogador jogador = jogadores.get(jComboBox1.getSelectedIndex());   
+            
+            if (jogadorDao.DeletarJogador(jogador)){
+                JOptionPane.showMessageDialog(rootPane, "Deleção realizada com sucesso!");
+                preencheUsuarios();
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "Falha na Deleção!");
+            };
+            
+            
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(ListaDeUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -151,13 +191,14 @@ public class ListaDeUsuarios extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
     List<Jogador> jogadores;
 
-    private void preencheUsuarios() throws SQLException, ClassNotFoundException {
+    public void preencheUsuarios() throws SQLException, ClassNotFoundException {
 
         JogadorDao jdao = new JogadorDao();
 
