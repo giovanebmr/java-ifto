@@ -112,7 +112,7 @@ public class ListarUsuarios extends javax.swing.JFrame {
         try {
             Jogador u =  Jogadores.get(jComboBox1.getSelectedIndex());
               
-                 new UpdateJogador(u).setVisible(true);
+                 new UpdateJogador(u ,this).setVisible(rootPaneCheckingEnabled);
                   preenchercomUsusario();
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ListarUsuarios.class.getName()).log(Level.SEVERE, null, ex);

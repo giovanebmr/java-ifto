@@ -20,8 +20,10 @@ public class UpdateJogador extends javax.swing.JFrame {
      * Creates new form Cadrastro
      */
     private Jogador jogador;
+    private ListarUsuarios listaDeUsuarios;
 
-    public UpdateJogador(Jogador u) {
+    public UpdateJogador(Jogador u,ListarUsuarios listarDeUsuarios) {
+        this.listaDeUsuarios = listarDeUsuarios;
         this.jogador = u;
         initComponents();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
