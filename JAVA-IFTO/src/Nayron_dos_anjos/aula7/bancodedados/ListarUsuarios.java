@@ -114,9 +114,7 @@ public class ListarUsuarios extends javax.swing.JFrame {
               
                  new UpdateJogador(u).setVisible(true);
                   preenchercomUsusario();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ListarUsuarios.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ListarUsuarios.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
