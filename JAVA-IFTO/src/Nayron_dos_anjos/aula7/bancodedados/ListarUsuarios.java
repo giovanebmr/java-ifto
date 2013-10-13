@@ -125,6 +125,7 @@ public class ListarUsuarios extends javax.swing.JFrame {
             JogadorDao u = new JogadorDao();
             if(u.deleteUsuario(j.getId())){
                 JOptionPane.showMessageDialog(rootPane, "Jogador Deletado");
+                 preenchercomUsusario();
             }else{
                  JOptionPane.showMessageDialog(rootPane, "Erro ao Deletar");
             }
