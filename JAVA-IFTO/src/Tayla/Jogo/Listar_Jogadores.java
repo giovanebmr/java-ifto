@@ -23,6 +23,8 @@ public class Listar_Jogadores extends javax.swing.JFrame {
     public Listar_Jogadores() throws SQLException, ClassNotFoundException{
         initComponents();
         preencheUsuarios();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+               
     }
 
     /**
@@ -40,7 +42,8 @@ public class Listar_Jogadores extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
-        jButton4 = new javax.swing.JButton();
+        alterarJogador = new javax.swing.JButton();
+        deletarJogador = new javax.swing.JButton();
 
         jButton1.setText("jButton1");
 
@@ -54,10 +57,17 @@ public class Listar_Jogadores extends javax.swing.JFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton4.setText("Alterar");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        alterarJogador.setText("Alterar");
+        alterarJogador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                alterarJogadorActionPerformed(evt);
+            }
+        });
+
+        deletarJogador.setText("Deletar");
+        deletarJogador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deletarJogadorActionPerformed(evt);
             }
         });
 
@@ -68,7 +78,8 @@ public class Listar_Jogadores extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4)
+                    .addComponent(deletarJogador)
+                    .addComponent(alterarJogador)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
@@ -83,8 +94,10 @@ public class Listar_Jogadores extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(74, 74, 74)
-                .addComponent(jButton4)
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addComponent(alterarJogador)
+                .addGap(18, 18, 18)
+                .addComponent(deletarJogador)
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -103,15 +116,35 @@ public class Listar_Jogadores extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void alterarJogadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_alterarJogadorActionPerformed
         // TODO add your handling code here:
         
         Jogador jogador = jogadores.get(jComboBox1.getSelectedIndex());
                       
-       
-        FormAlterarJogador formCadastro = new FormAlterarJogador(jogador);
+        FormAlterarJogador formCadastro = new FormAlterarJogador(jogador, this);
+        
         formCadastro.setVisible(rootPaneCheckingEnabled);
-    }//GEN-LAST:event_jButton4ActionPerformed
+       
+              
+    }//GEN-LAST:event_alterarJogadorActionPerformed
+
+    private void deletarJogadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletarJogadorActionPerformed
+        // TODO add your handling code here:
+        Jogador jogador = jogadores.get(jComboBox1.getSelectedIndex());
+        try {
+            JogadorDao jdao = new JogadorDao(jogador);
+            
+            if (jdao.DeletarJogador()){
+                JOptionPane.showMessageDialog(rootPane, "Jogador excluído com Sucesso.");
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "Falha na exclusão do jogador.");
+            }
+            
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Listar_Jogadores.class.getName()).log(Level.SEVERE, null, ex);
+        }   
+        
+    }//GEN-LAST:event_deletarJogadorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,10 +186,11 @@ public class Listar_Jogadores extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton alterarJogador;
+    private javax.swing.JButton deletarJogador;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
@@ -165,7 +199,7 @@ public class Listar_Jogadores extends javax.swing.JFrame {
 private  List<Jogador> jogadores;
 
     
-private void preencheUsuarios() throws SQLException, ClassNotFoundException {
+public void preencheUsuarios() throws SQLException, ClassNotFoundException {
 
         JogadorDao jdao = new JogadorDao();
   
