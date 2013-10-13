@@ -4,6 +4,8 @@
  */
 package br.edu.ifto.aula9.jogodavelha.view;
 
+import java.awt.Dialog;
+import java.awt.Dimension;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +22,9 @@ public class TelaInicial extends javax.swing.JFrame {
     public TelaInicial() {
         initComponents();
         this.setLocation((int)java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight() - this.getHeight(), (int)java.awt.Toolkit.getDefaultToolkit().getScreenSize().getHeight() - this.getWidth());
+        this.setTitle("Jogo da Velha 1.0.0 ALPHA");
+        this.setResizable(false);
+        this.setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
     }
 
     /**
@@ -50,6 +55,15 @@ public class TelaInicial extends javax.swing.JFrame {
         setTitle("Jogo da Velha PSID - versão: 1.0.0");
 
         jPanel1.setBackground(new java.awt.Color(102, 153, 255));
+        jPanel1.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+                jPanelEventoMovimentacaoDoFrame(evt);
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -106,11 +120,11 @@ public class TelaInicial extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
+                        .addGap(2, 2, 2)
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton3)
-                        .addGap(18, 18, 18)
+                        .addGap(26, 26, 26)
                         .addComponent(jButton4)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -157,7 +171,7 @@ public class TelaInicial extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
@@ -165,7 +179,7 @@ public class TelaInicial extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
-                .addContainerGap())
+                .addGap(26, 26, 26))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -176,7 +190,7 @@ public class TelaInicial extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, Short.MAX_VALUE)
         );
 
         pack();
@@ -189,7 +203,7 @@ public class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoCadastro
 
     private void botaoLogar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoLogar
-        Login log = new Login();
+        Login log = new Login(this);
         log.setLocationRelativeTo(this);
         log.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_botaoLogar
@@ -203,6 +217,10 @@ public class TelaInicial extends javax.swing.JFrame {
             Logger.getLogger(TelaInicial.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_botao2PlayersOff
+
+    private void jPanelEventoMovimentacaoDoFrame(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jPanelEventoMovimentacaoDoFrame
+        jPanel1.setSize(this.getWidth(), this.getHeight());
+    }//GEN-LAST:event_jPanelEventoMovimentacaoDoFrame
 
     /**
      * @param args the command line arguments
@@ -233,6 +251,7 @@ public class TelaInicial extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new TelaInicial().setVisible(true);
             }

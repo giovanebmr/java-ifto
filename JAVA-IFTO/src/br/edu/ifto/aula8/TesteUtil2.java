@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
  * @author Giovane
  * @see 22/09/2013
  */
-public class TesteUtil {
+public class TesteUtil2 {
 
     public static void main(String args[]) {
 
@@ -18,7 +18,7 @@ public class TesteUtil {
 
         String s, s2;
 
-        Util u = new Util();
+        Util2 u = new Util2();
 
         while (!u.isNumeroFloat((s = JOptionPane.showInputDialog("Digite o primeiro número:")))) {
             JOptionPane.showMessageDialog(null, "Digite apenas números!!!!");

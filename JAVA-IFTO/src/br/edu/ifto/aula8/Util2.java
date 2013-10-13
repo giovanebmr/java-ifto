@@ -9,7 +9,7 @@ package br.edu.ifto.aula8;
  * @author Giovane Bruno Monte Reis
  * @see 22/09/2013
  */
-public class Util {
+public class Util2 {
 
     /** Verifica se uma string pode ser convertida em um número inteiro (Integer)
      * @param numero uma string de entrada a ser validada pelo método

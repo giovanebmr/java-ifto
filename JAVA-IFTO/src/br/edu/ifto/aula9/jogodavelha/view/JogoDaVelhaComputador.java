@@ -4,7 +4,7 @@
  */
 package br.edu.ifto.aula9.jogodavelha.view;
 
-import br.edu.ifto.aula9.jogodavelha.regras.JogoRN2PlayersOff;
+import br.edu.ifto.aula9.jogodavelha.regras.JogoRNComputador;
 import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -16,12 +16,12 @@ import javax.swing.JOptionPane;
  *
  * @author Giovane Bruno Monte Reis
  */
-public class JogoDaVelha2PlayersOff extends javax.swing.JFrame {
+public class JogoDaVelhaComputador extends javax.swing.JFrame {
 
     /**
      * Creates new form JogoDaVelhaOn
      */
-    public JogoDaVelha2PlayersOff() throws IOException {
+    public JogoDaVelhaComputador() throws IOException {
         initComponents();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         inicializaJogo();
@@ -77,10 +77,10 @@ public class JogoDaVelha2PlayersOff extends javax.swing.JFrame {
         jLabel1.setText("Placar:");
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Desafiante O");
+        jLabel2.setText("Você");
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Desafiante X");
+        jLabel3.setText("Computador");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -201,7 +201,7 @@ public class JogoDaVelha2PlayersOff extends javax.swing.JFrame {
                                     .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(94, 94, 94)
+                        .addGap(117, 117, 117)
                         .addComponent(jLabel2)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -218,7 +218,7 @@ public class JogoDaVelha2PlayersOff extends javax.swing.JFrame {
                                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                         .addComponent(jLabel3)
                         .addGap(106, 106, 106))))
             .addComponent(jSeparator2)
@@ -337,13 +337,13 @@ public class JogoDaVelha2PlayersOff extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JogoDaVelha2PlayersOff.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JogoDaVelhaComputador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JogoDaVelha2PlayersOff.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JogoDaVelhaComputador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JogoDaVelha2PlayersOff.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JogoDaVelhaComputador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JogoDaVelha2PlayersOff.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JogoDaVelhaComputador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -352,9 +352,9 @@ public class JogoDaVelha2PlayersOff extends javax.swing.JFrame {
             @Override
             public void run() {
                 try {
-                    new JogoDaVelha2PlayersOff().setVisible(true);
+                    new JogoDaVelhaComputador().setVisible(true);
                 } catch (IOException ex) {
-                    Logger.getLogger(JogoDaVelha2PlayersOff.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(JogoDaVelhaComputador.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -380,7 +380,7 @@ public class JogoDaVelha2PlayersOff extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
-    private JogoRN2PlayersOff jogo;
+    private JogoRNComputador jogo;
     private JButton [][] matrizBotao;
     
     private void inicializaJogo() {
@@ -401,6 +401,6 @@ public class JogoDaVelha2PlayersOff extends javax.swing.JFrame {
            matrizBotao[2][2] = jButton8;
            
            //Instancia um objeto da clase JogoRN2PlayersOff, com as configurações default
-           this.jogo = new JogoRN2PlayersOff(matrizBotao, matrizBotao.length, matrizBotao.length, jTextField1, jTextField2);
+           this.jogo = new JogoRNComputador(matrizBotao, matrizBotao.length, matrizBotao.length, jTextField1, jTextField2);
     }
 }

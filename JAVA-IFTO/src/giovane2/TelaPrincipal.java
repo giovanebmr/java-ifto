@@ -2,9 +2,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package giovane;
+package giovane2;
 
-import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

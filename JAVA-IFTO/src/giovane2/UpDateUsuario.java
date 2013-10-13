@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package giovane;
+package giovane2;
 
 import br.edu.ifto.aula9.jogodavelha.view.*;
 import java.sql.SQLException;

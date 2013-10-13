@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edu.ifto.aula9.jogodavelha.dao;
+package giovane2;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Giovane Bruno Monte Reis
+ * @author Giovane
  */
 public class DBConnection {
     public Connection getMyDBConnection() throws ClassNotFoundException, SQLException {
