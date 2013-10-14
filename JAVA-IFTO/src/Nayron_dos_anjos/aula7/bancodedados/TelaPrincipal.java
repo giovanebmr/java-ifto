@@ -32,10 +32,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         Cad_usuarios = new javax.swing.JButton();
         ListarUsusarios = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        DeletarUsuario = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(189, 50, 118));
 
         Cad_usuarios.setText("Cadastrar Usuarios");
         Cad_usuarios.addActionListener(new java.awt.event.ActionListener() {
@@ -51,30 +50,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Alterar Usuario");
-
-        DeletarUsuario.setText("Deletar Usuario");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(44, 44, 44)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(Cad_usuarios)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ListarUsusarios))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton4)
-                        .addGap(52, 52, 52)
-                        .addComponent(DeletarUsuario)))
+                .addComponent(Cad_usuarios)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addComponent(ListarUsusarios)
                 .addGap(48, 48, 48))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {Cad_usuarios, DeletarUsuario, ListarUsusarios, jButton4});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {Cad_usuarios, ListarUsusarios});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -83,14 +71,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Cad_usuarios)
                     .addComponent(ListarUsusarios))
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(DeletarUsuario))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {Cad_usuarios, DeletarUsuario, ListarUsusarios, jButton4});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {Cad_usuarios, ListarUsusarios});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -148,8 +132,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Cad_usuarios;
-    private javax.swing.JButton DeletarUsuario;
     private javax.swing.JButton ListarUsusarios;
-    private javax.swing.JButton jButton4;
     // End of variables declaration//GEN-END:variables
 }

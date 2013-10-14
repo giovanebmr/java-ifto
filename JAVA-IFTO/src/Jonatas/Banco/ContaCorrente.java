@@ -1,3 +1,5 @@
+package Jonatas.Banco;
+
 public class ContaCorrente{
 
   private int Numero;

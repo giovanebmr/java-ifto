@@ -24,7 +24,7 @@ public class JogadorDao extends DBConnection {
     }
 
     public void addJogador(Jogador jogador) throws SQLException {
-        String SQL = "insert into NAYRON.jogador(nome,login,email,senha) values (?,?,?,?)";
+        String SQL = "insert into NAYRON.JOGADOR(nome,login,email,senha) values (?,?,?,?)";
 
         PreparedStatement stmt = conn.prepareStatement(SQL);
 
@@ -38,39 +38,64 @@ public class JogadorDao extends DBConnection {
 
     }
 
+    public boolean deleteUsuario(int id) throws SQLException {
+        String SQL = "DELETE FROM NAYRON.JOGADOR where id_jogador=?";
+
+        PreparedStatement stmt = conn.prepareStatement(SQL);
+
+        stmt.setInt(1, id);
+
+        return stmt.executeUpdate()> 0;
+
+    }
+
+    public boolean AlterarUsuario(Jogador jogador) throws SQLException {
+        String SQL = "UPDATE NAYRON.JOGADOR SET nome=?,login=?,email=?,senha=?"
+                + "where id_jogador=?";
+
+        PreparedStatement stmt = conn.prepareStatement(SQL);
+
+        stmt.setString(1, jogador.getNome());
+        stmt.setString(2, jogador.getLogin());
+        stmt.setString(3, jogador.getEmail());
+        stmt.setString(4, jogador.getSenha());
+        stmt.setInt(5, jogador.getId());
+
+        return stmt.executeUpdate() > 0;
+    }
+
     /**
      *
      * @return @throws SQLException
      */
     public List<Jogador> listaUsuarios() throws SQLException {
 
-        String sql = "SELECT * FROM Jogo.jogador";
+        String sql = "select * from NAYRON.JOGADOR";
         PreparedStatement stmt;
         ResultSet rs;
 
         List jogadores = new LinkedList<>();
-       
+
         stmt = conn.prepareStatement(sql);
         rs = stmt.executeQuery();
-        
-        while(rs.next()){
+
+        while (rs.next()) {
             jogadores.add(getObjeto(rs));
         }
 
         return jogadores;
     }
-    
-    public Jogador getObjeto(ResultSet rs) throws SQLException{
-        
+
+    public Jogador getObjeto(ResultSet rs) throws SQLException {
+
         Jogador jogador = new Jogador();
-        
-        jogador.setid(rs.getInt("id"));
+
+        jogador.setid(rs.getInt("id_jogador"));
         jogador.setNome(rs.getString("nome"));
         jogador.setEmail(rs.getString("email"));
-      //  jogador.setSenha(rs.getString("senha"));
-        
+        jogador.setLogin(rs.getString("login"));
+
         return jogador;
-    
+
     }
-    
 }
