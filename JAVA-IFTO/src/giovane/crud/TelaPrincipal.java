@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package giovane2;
+package giovane.crud;
 
+import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,8 +21,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public TelaPrincipal() {
         initComponents();
         setBackground(new java.awt.Color(102, 153, 255));
-     //   Dimension d = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-      //  setLocation((int)d.getHeight()/2, (int)d.getWidth()/2-this.getWidth());
+        Dimension d = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation((int)d.getWidth()/2-(this.getWidth()/2), (int)d.getHeight()/2-(this.getHeight()/2));
     }
 
     /**

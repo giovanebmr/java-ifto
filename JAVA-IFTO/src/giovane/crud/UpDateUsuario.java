@@ -2,13 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package giovane;
+package giovane.crud;
 
 import br.edu.ifto.aula9.jogodavelha.view.*;
+import java.awt.Dialog;
+import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 
 /**
@@ -21,18 +24,36 @@ public class UpDateUsuario extends javax.swing.JFrame {
      * Creates new form CadastroDeJogador
      */
     private Usuario usuario;
+    private ListaDeUsuarios listaDeUsuarios;
+   
     
     public UpDateUsuario(Usuario u) {
         this.usuario = u;
         initComponents();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setTitle("Alterar Usuário");
-        
         nome.setText(u.getNome());
         email.setText(u.getEmail());
         login.setText(u.getLogin());
+       Dimension d = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation((int)d.getWidth()/2-(this.getWidth()/2), (int)d.getHeight()/2-(this.getHeight()/2));
         
     }
+    
+    public UpDateUsuario(Usuario u,ListaDeUsuarios listaDeUsuarios) {
+        this.listaDeUsuarios = listaDeUsuarios;
+        this.usuario = u;
+        initComponents();
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.setTitle("Alterar Usuário");
+        nome.setText(u.getNome());
+        email.setText(u.getEmail());
+        login.setText(u.getLogin());
+        Dimension d = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation((int)d.getWidth()/2-(this.getWidth()/2), (int)d.getHeight()/2-(this.getHeight()/2));
+    }
+
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -54,6 +75,8 @@ public class UpDateUsuario extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Jogo da Velha PSID - Cadastrar Usuário");
+        setModalExclusionType(java.awt.Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(102, 153, 255));
 
@@ -120,7 +143,7 @@ public class UpDateUsuario extends javax.swing.JFrame {
         jButton2.setText("Alterar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                botaoAlterar(evt);
             }
         });
 
@@ -168,7 +191,7 @@ public class UpDateUsuario extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void botaoAlterar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAlterar
         try {
             UsuarioDao dao = new UsuarioDao();
             usuario.setEmail(email.getText());
@@ -176,13 +199,16 @@ public class UpDateUsuario extends javax.swing.JFrame {
             usuario.setLogin(login.getText());
             if(dao.AlterarUsuario(usuario)){
                 JOptionPane.showMessageDialog(rootPane, "Alteração realizada.");
+                listaDeUsuarios.preencheUsuarios();
+                listaDeUsuarios.preencheTabela();
+                this.dispose();
             }else{
                 JOptionPane.showMessageDialog(rootPane, "Falha na Alteração.");
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(UpDateUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_botaoAlterar
 
     /**
      * @param args the command line arguments

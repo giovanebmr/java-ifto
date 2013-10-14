@@ -2,9 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package giovane2;
+package giovane.crud;
 
+import br.edu.ifto.util.rmi.beans.Emprestimo;
+import java.awt.Dialog;
+import java.awt.Dimension;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,8 +26,12 @@ public class ListaDeUsuarios extends javax.swing.JFrame {
     public ListaDeUsuarios() throws SQLException, ClassNotFoundException {
         initComponents();
         preencheUsuarios();
+        preencheTabela();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(102, 153, 255));
+        setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
+        Dimension d = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation((int)d.getWidth()/2-(this.getWidth()/2), (int)d.getHeight()/2-(this.getHeight()/2));
     }
 
     /**
@@ -41,6 +49,8 @@ public class ListaDeUsuarios extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,7 +65,7 @@ public class ListaDeUsuarios extends javax.swing.JFrame {
         jButton1.setText("Alterar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                botaoAlterar(evt);
             }
         });
 
@@ -67,13 +77,26 @@ public class ListaDeUsuarios extends javax.swing.JFrame {
             }
         });
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(71, 71, 71)
@@ -82,23 +105,28 @@ public class ListaDeUsuarios extends javax.swing.JFrame {
                         .addComponent(jButton1)
                         .addGap(49, 49, 49)
                         .addComponent(jButton2))
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(52, Short.MAX_VALUE))
+                    .addComponent(jSeparator1))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(89, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(68, 68, 68)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(30, 30, 30)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(30, 30, 30)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -115,13 +143,12 @@ public class ListaDeUsuarios extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void botaoAlterar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAlterar
+     
+            Usuario u = usuarios.get(jComboBox1.getSelectedIndex());
 
-        Usuario u = usuarios.get(jComboBox1.getSelectedIndex());
-
-        new UpDateUsuario(u).setVisible(true);
-
-    }//GEN-LAST:event_jButton1ActionPerformed
+            new UpDateUsuario(u,this).setVisible(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_botaoAlterar
 
     private void botaoDeletar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoDeletar
         try {
@@ -131,6 +158,8 @@ public class ListaDeUsuarios extends javax.swing.JFrame {
             
             if(dao.deletarUsuario(u.getId())){
                 JOptionPane.showMessageDialog(rootPane, "Usuário deletado.");
+                preencheUsuarios();
+                preencheTabela();
             }else{
                 JOptionPane.showMessageDialog(rootPane, "Falha: tente novamente.");
             }
@@ -186,11 +215,13 @@ public class ListaDeUsuarios extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
     private List<Usuario> usuarios;
 
-    private void preencheUsuarios() throws SQLException, ClassNotFoundException {
+    public void preencheUsuarios() throws SQLException, ClassNotFoundException {
 
         UsuarioDao jdao = new UsuarioDao();
 
@@ -206,6 +237,28 @@ public class ListaDeUsuarios extends javax.swing.JFrame {
             i++;
         }
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(vetor));
+    }
+    
+    public void preencheTabela() throws SQLException, ClassNotFoundException {
+
+        UsuarioDao jdao = new UsuarioDao();
+
+        usuarios = jdao.listaUsuarios();
+
+        String array[][] = new String[usuarios.size()][4];
+
+        int i = 0;
+
+        for (Iterator<Usuario> it = usuarios.iterator(); it.hasNext();) {
+            Usuario usuario = it.next();
+            array[i][0] = usuario.getId() + "";
+            array[i][1] = usuario.getNome() + "";
+            array[i][2] = usuario.getLogin()+ "";
+            array[i][3] = usuario.getEmail()+ "";
+            i++;
+        }
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(array, new String[]{"Código", "Nome", "Login", "E-Mail do Usuário"}));
 
 
     }
