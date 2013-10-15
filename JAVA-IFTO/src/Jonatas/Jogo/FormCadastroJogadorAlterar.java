@@ -175,26 +175,26 @@ public class FormCadastroJogadorAlterar extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSenhaActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+        // TODO add your handling code here:
+        jogador.setLogin(txtLogin.getText());
+        jogador.setNome(txtNome.getText());
+        jogador.setEmail(txtEmail.getText());
+        
+        
         try {
-            // TODO add your handling code here:
-            jogador.setLogin(txtLogin.getText());
-            jogador.setNome(txtNome.getText());
-            jogador.setEmail(txtEmail.getText());
+            JogadorDao jogadorDao = new JogadorDao();
+            if (jogadorDao.AlterarJogador(jogador)){
+                JOptionPane.showMessageDialog(rootPane, "Alteração realizada com sucesso!");
+                listaUsuarios.preencheUsuarios();
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "Falha na Alteração!");
+            };
             
-            
-          
-                JogadorDao jogadorDao = new JogadorDao();
-                if (jogadorDao.AlterarJogador(jogador)){
-                    JOptionPane.showMessageDialog(rootPane, "Alteração realizada com sucesso!");
-                    listaUsuarios.preencheUsuarios();
-                }else{
-                    JOptionPane.showMessageDialog(rootPane, "Falha na Alteração!");
-                };
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(FormCadastroJogadorAlterar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FormCadastroJogadorJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(FormCadastroJogadorJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
-       
 
     }//GEN-LAST:event_btnCadastrarActionPerformed
 

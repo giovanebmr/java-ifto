@@ -34,6 +34,10 @@ public class Jogador implements java.io.Serializable{
         this.Id = id;
     }
     
+    public void setId(int id){
+        this.Id = id;
+    }
+    
     public int getId(){
         return this.Id;
     }
