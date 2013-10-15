@@ -10,12 +10,12 @@ import javax.swing.JOptionPane;
  *
  * @author aluno
  */
-public class principal extends javax.swing.JFrame {
+public class principal_1 extends javax.swing.JFrame {
 
     /**
      * Creates new form principal
      */
-    public principal() {
+    public principal_1() {
         initComponents();
     }
 

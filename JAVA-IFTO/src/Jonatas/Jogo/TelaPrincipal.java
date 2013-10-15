@@ -106,11 +106,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoListar
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-            
-            FormCadastroJogadorJFrame formCadastro = new FormCadastroJogadorJFrame();
-            formCadastro.setVisible(rootPaneCheckingEnabled);
-
+        
+        new br.edu.ifto.aula9.jogodavelha.view.CadastroDeJogador().setVisible(rootPaneCheckingEnabled);
    
     }//GEN-LAST:event_jButton2ActionPerformed
 

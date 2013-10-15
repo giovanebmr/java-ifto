@@ -8,7 +8,7 @@ package fabio;
  *
  * @author aluno
  */
-public class Desempenho {
+public class Desempenho_1 {
 
     String mensagem;
 

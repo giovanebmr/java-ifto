@@ -164,21 +164,23 @@ public class FormCadastroJogador extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSenhaActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        // TODO add your handling code here:
-        Jogador jogador = new Jogador();
-
-        jogador.setLogin(txtLogin.getText());
-        jogador.setNome(txtNome.getText());
-        jogador.setSenha(DigestUtils.sha512Hex(txtSenha.getPassword().toString()));
-        jogador.setEmail(txtEmail.getText());
-        
-        
         try {
-            JogadorDao jogadorDao = new JogadorDao();
-            jogadorDao.addJogador(jogador);
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(FormCadastroJogadorJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            // TODO add your handling code here:
+            Jogador jogador = new Jogador();
+
+            jogador.setLogin(txtLogin.getText());
+            jogador.setNome(txtNome.getText());
+            jogador.setSenha(DigestUtils.sha512Hex(txtSenha.getPassword().toString()));
+            jogador.setEmail(txtEmail.getText());
+            
+            
+           
+                JogadorDao jogadorDao = new JogadorDao();
+                jogadorDao.addJogador(jogador);
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(FormCadastroJogador.class.getName()).log(Level.SEVERE, null, ex);
         }
+      
 
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
