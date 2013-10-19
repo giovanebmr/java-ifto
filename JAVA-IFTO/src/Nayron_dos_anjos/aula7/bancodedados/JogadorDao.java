@@ -98,4 +98,14 @@ public class JogadorDao extends DBConnection {
         return jogador;
 
     }
+    public void addUsuario(Mensagem mensagem) throws SQLException  {
+        String SQL = "insert into NAYRON.MENSAGEM3(apelido,mensagem,horarioMensagem) values (?,?,CURRENT_TIMESTAMP)";
+        PreparedStatement stmt = conn.prepareStatement(SQL);
+
+        stmt.setString(1, mensagem.getApelido());
+        stmt.setString(2, mensagem.getMensagem());
+        
+
+        stmt.execute();
+    }
 }
