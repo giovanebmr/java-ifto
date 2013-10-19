@@ -23,8 +23,11 @@ public class FormAlterarJogador extends javax.swing.JFrame {
      * 
      */
     private Jogador jogador;
-    public FormAlterarJogador(Jogador jogador) {
+    private Listar_Jogadores listajogadores;
+    
+    public FormAlterarJogador(Jogador jogador, Listar_Jogadores listajogadores) {
        
+        this.listajogadores = listajogadores;
         initComponents();
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.jogador = jogador;
@@ -197,6 +200,7 @@ public class FormAlterarJogador extends javax.swing.JFrame {
             if (jogadorDao.AlterarJogador(jogador)){
             
                 JOptionPane.showMessageDialog(rootPane, "Alteração realizada com sucesso.");
+                listajogadores.preencheUsuarios();
             }else{
             
                 JOptionPane.showMessageDialog(rootPane, "Falha na Alteração");

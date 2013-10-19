@@ -22,6 +22,7 @@ public class FormJogador extends javax.swing.JFrame {
      */
     public FormJogador() {
         initComponents();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**

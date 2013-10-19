@@ -19,11 +19,16 @@ import java.util.List;
  */
 public class JogadorDao extends DBConnection{
     private final Connection conn;
+    Jogador jogador;
     
     public JogadorDao() throws ClassNotFoundException, SQLException{
         this.conn = getMyDBConnection();
     }
     
+    public JogadorDao(Jogador jogador) throws ClassNotFoundException, SQLException{
+        this.conn = getMyDBConnection();
+        this.jogador = jogador;
+    } 
     
     public void addJogador (Jogador jogador) throws SQLException{
         String SQL = "insert into TAYLA.JOGADOR"
@@ -36,6 +41,23 @@ public class JogadorDao extends DBConnection{
     stmt.setString(2, jogador.getLogin());
     stmt.setString(3, jogador.getEmail());
     stmt.setString(4, jogador.getSenha());
+    
+    stmt.execute();
+    stmt.close();
+        
+    } 
+    
+   public void addJogador () throws SQLException{
+        String SQL = "insert into TAYLA.JOGADOR"
+            + "(nome, login, email, senha)"
+            + "values (?,?,?,?)";
+    
+    PreparedStatement stmt = conn.prepareStatement(SQL);
+    
+    stmt.setString(1, this.jogador.getNome());
+    stmt.setString(2, this.jogador.getLogin());
+    stmt.setString(3, this.jogador.getEmail());
+    stmt.setString(4, this.jogador.getSenha());
     
     stmt.execute();
     stmt.close();
@@ -60,6 +82,7 @@ public class JogadorDao extends DBConnection{
          
      }
         return jogadores;
+        
   } 
  
   public Jogador getObjeto(ResultSet rs) throws SQLException{
@@ -83,6 +106,18 @@ public class JogadorDao extends DBConnection{
       stmt.setString(2, jogador.getLogin());
       stmt.setString(3, jogador.getEmail());
       stmt.setInt(4, jogador.getId());
+      
+      return stmt.executeUpdate() > 0;
+  }
+  
+    public boolean DeletarJogador () throws SQLException{
+      String SQL = "delete from tayla.JOGADOR "
+              + "where id_jogador =?";
+      
+      PreparedStatement stmt = conn.prepareStatement(SQL);
+      
+
+      stmt.setInt(1, this.jogador.getId());
       
       return stmt.executeUpdate() > 0;
   }

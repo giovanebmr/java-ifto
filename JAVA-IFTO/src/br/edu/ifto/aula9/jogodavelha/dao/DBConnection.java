@@ -14,7 +14,7 @@ import java.sql.SQLException;
  */
 public class DBConnection {
     public Connection getMyDBConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("org.apache.derby.jdbc.ClientDriver");
+       // Class.forName("org.apache.derby.jdbc.ClientDriver");  //necessário com java anterior à versão 6
         return DriverManager.getConnection("jdbc:derby://localhost:1527/jogo_da_velha","javadb","javadb");
     }
 }

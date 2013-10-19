@@ -1,6 +1,7 @@
 package br.edu.ifto.aula9.jogodavelha.dao;
 
 import br.edu.ifto.aula9.jogodavelha.beans.Jogador;
+import br.edu.ifto.aula9.jogodavelha.beans.Mesa;
 import java.sql.*;
 import java.util.*;
 import java.util.logging.Level;
@@ -27,9 +28,11 @@ import java.util.logging.Logger;
  * table you are paying for.) Send mail to "Tuomo.Lukka@iki.fi" for more
  * information. Thank you!
  */
-
-/*
+/**
  * Adaptado por: Giovane Bruno Monte Reis
+ *
+ * @version 1.0.0
+ * @since 1.0.0
  */
 public class JogadorDao extends DBConnection {
 
@@ -81,7 +84,7 @@ public class JogadorDao extends DBConnection {
      */
     public void load(Jogador valueObject) throws NotFoundException, SQLException {
 
-        String sql = "SELECT * FROM JOGODAVELHA.Jogador WHERE (id = ? ) ";
+        String sql = "SELECT * FROM JOGODAVELHA.Jogador WHERE (id_jogador = ? ) ";
         PreparedStatement stmt = null;
 
         try {
@@ -106,10 +109,20 @@ public class JogadorDao extends DBConnection {
      * @param conn This method requires working database connection.
      */
     public List loadAll() throws SQLException {
-
-        String sql = "SELECT * FROM JOGODAVELHA.Jogador ORDER BY id ASC ";
+        String sql = "SELECT * FROM JOGODAVELHA.Jogador ORDER BY id_jogador ASC ";
         List searchResults = listQuery(conn.prepareStatement(sql));
+        return searchResults;
+    }
 
+    public List loadAllJogadoresLogados() throws SQLException {
+        String sql = "SELECT id_jogador,nome,login,jogando,desafiado FROM JOGODAVELHA.Jogador where online = true ORDER BY login ASC ";
+        List searchResults = listQuery(conn.prepareStatement(sql));
+        return searchResults;
+    }
+
+    public List loadAllJogadoresLogadosDisponiveis() throws SQLException {
+        String sql = "SELECT id_jogador,nome,login,jogando,desafiado FROM JOGODAVELHA.Jogador where online = true and jogando=false ORDER BY login ASC ";
+        List searchResults = listQuery(conn.prepareStatement(sql));
         return searchResults;
     }
 
@@ -173,7 +186,7 @@ public class JogadorDao extends DBConnection {
             throws NotFoundException, SQLException {
 
         String sql = "UPDATE JOGODAVELHA.Jogador SET nome = ?, login = ?, email = ?, "
-                + "senha = ? WHERE (id = ? ) ";
+                + "senha = ? WHERE (id_jogador = ? ) ";
         PreparedStatement stmt = null;
 
         try {
@@ -217,7 +230,7 @@ public class JogadorDao extends DBConnection {
     public void delete(Jogador valueObject)
             throws NotFoundException, SQLException {
 
-        String sql = "DELETE FROM JOGODAVELHA.Jogador WHERE (id = ? ) ";
+        String sql = "DELETE FROM JOGODAVELHA.Jogador WHERE (id_jogador = ? ) ";
         PreparedStatement stmt = null;
 
         try {
@@ -303,6 +316,35 @@ public class JogadorDao extends DBConnection {
     }
 
     /**
+     * retorna a quantidade de registros encontrados, por id correspondente na tabela
+     */
+    public int countJogadorMesa(int idJogador) throws SQLException {
+
+        String sql = "SELECT count(*) FROM JOGODAVELHA.mesa where IDJOGADOR1=?";
+        PreparedStatement stmt = null;
+        ResultSet result = null;
+        int allRows = 0;
+
+        try {
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, idJogador);
+            result = stmt.executeQuery();
+
+            if (result.next()) {
+                allRows = result.getInt(1);
+            }
+        } finally {
+            if (result != null) {
+                result.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+        return allRows;
+    }
+
+    /**
      * searchMatching-Method. This method provides searching capability to get
      * matching valueObjects from database. It works by searching all objects
      * that match permanent instance variables of given object. Upper layer
@@ -326,7 +368,7 @@ public class JogadorDao extends DBConnection {
             if (first) {
                 first = false;
             }
-            sql.append("AND id = ").append(valueObject.getId()).append(" ");
+            sql.append("AND id_jogador = ").append(valueObject.getId()).append(" ");
         }
 
         if (valueObject.getNome() != null) {
@@ -358,7 +400,7 @@ public class JogadorDao extends DBConnection {
         }
 
 
-        sql.append("ORDER BY id ASC ");
+        sql.append("ORDER BY id_jogador ASC ");
 
         // Prevent accidential full table results.
         // Use loadAll if all rows must be returned.
@@ -372,35 +414,49 @@ public class JogadorDao extends DBConnection {
     }
 
     /**
-     * verifica se email ou login e senha são válidos se retornar null (ocorreu
-     * um erro no sistema) se retornar um objeto Jogador vazio ( o login ou senha são inválidos)
+     * verifica se email ou login e senha são válidos<br/>
+     * se retornar null (ocorreu um erro no sistema)<br/>
+     * se retornar um objeto Jogador vazio ( o login ou senha são inválidos)
+     *
+     * @since 1.0.0
+     * @return Jogador or null
      */
-    public Jogador validUserAndPassword(String loginOrEmail, String senha) {
+    public Jogador getValidUserAndPassword(String loginOrEmail, String senha) {
         try {
             ResultSet result = null;
             Jogador valueObject = new Jogador();
-            StringBuffer sql = new StringBuffer("SELECT id, nome, login, email FROM JOGODAVELHA.Jogador WHERE 1=1 ");
+            StringBuffer sql = new StringBuffer("SELECT id_jogador, nome, login, email, jogando, desafiado FROM JOGODAVELHA.Jogador WHERE 1=1 ");
             sql.append("AND login LIKE '").append(loginOrEmail).append("%' ");
             sql.append("AND senha LIKE '").append(senha).append("%' ");
             PreparedStatement stmt = conn.prepareStatement(sql.toString());
             result = stmt.executeQuery();
+            //tenta por login e senha
             if (result.next()) {
-                valueObject.setId(result.getInt("id"));
+                valueObject.setId(result.getInt("id_jogador"));
                 valueObject.setNome(result.getString("nome"));
                 valueObject.setLogin(result.getString("login"));
                 valueObject.setEmail(result.getString("email"));
+                valueObject.setJogando(result.getBoolean("jogando"));
+                valueObject.setDesafiado(result.getBoolean("desafiado"));
+                //altera o atributo on-line da tabela jogador para true
+                setOnlineTrue(valueObject);
                 return valueObject;
             } else {
-                sql = new StringBuffer("SELECT id, nome, login, email FROM JOGODAVELHA.Jogador WHERE 1=1 ");
+                //tenta por email e senha
+                sql = new StringBuffer("SELECT id_jogador, nome, login, email, jogando, desafiado FROM JOGODAVELHA.Jogador WHERE 1=1 ");
                 sql.append("AND email LIKE '").append(loginOrEmail).append("%' ");
                 sql.append("AND senha LIKE '").append(senha).append("%' ");
                 stmt = conn.prepareStatement(sql.toString());
                 result = stmt.executeQuery();
                 if (result.next()) {
-                    valueObject.setId(result.getInt("id"));
+                    valueObject.setId(result.getInt("id_jogador"));
                     valueObject.setNome(result.getString("nome"));
                     valueObject.setLogin(result.getString("login"));
                     valueObject.setEmail(result.getString("email"));
+                    valueObject.setJogando(result.getBoolean("jogando"));
+                    valueObject.setDesafiado(result.getBoolean("desafiado"));
+                    //altera o atributo on-line da tabela jogador para true
+                    setOnlineTrue(valueObject);
                     return valueObject;
                 }
                 return new Jogador();
@@ -456,7 +512,7 @@ public class JogadorDao extends DBConnection {
 
             if (result.next()) {
 
-                valueObject.setId(result.getInt("id"));
+                valueObject.setId(result.getInt("id_jogador"));
                 valueObject.setNome(result.getString("nome"));
                 valueObject.setLogin(result.getString("login"));
                 valueObject.setEmail(result.getString("email"));
@@ -496,12 +552,11 @@ public class JogadorDao extends DBConnection {
             while (result.next()) {
                 Jogador temp = createValueObject();
 
-                temp.setId(result.getInt("id"));
+                temp.setId(result.getInt("id_jogador"));
                 temp.setNome(result.getString("nome"));
                 temp.setLogin(result.getString("login"));
-                temp.setEmail(result.getString("email"));
-                temp.setSenha(result.getString("senha"));
-
+                temp.setJogando(result.getBoolean("jogando"));
+                temp.setDesafiado(result.getBoolean("desafiado"));
                 searchResults.add(temp);
             }
 
@@ -516,4 +571,265 @@ public class JogadorDao extends DBConnection {
 
         return (List) searchResults;
     }
+
+    private void setOnlineTrue(Jogador valueObject) throws SQLException {
+        //altera o atributo on-line da tabela jogador para true e desafiado para false
+        PreparedStatement stmt2 = conn.prepareStatement("UPDATE jogodavelha.jogador SET online=?,desafiado=? WHERE id_jogador = ?");
+        stmt2.setBoolean(1, true);
+        stmt2.setBoolean(2, false);
+        stmt2.setInt(3, valueObject.getId());
+        databaseUpdate(stmt2);
+    }
+
+    public boolean setOnlineFalse(Jogador valueObject) throws SQLException {
+        //altera o atributo on-line da tabela jogador para false e desafiado para false
+        PreparedStatement stmt2 = conn.prepareStatement("UPDATE jogodavelha.jogador SET online=?, desafiado=? WHERE id_jogador = ?");
+        stmt2.setBoolean(1, false);
+        stmt2.setBoolean(2, false);
+        stmt2.setInt(3, valueObject.getId());
+        return databaseUpdate(stmt2) > 0;
+    }
+
+    /**
+     * Esse método age somente nos jogadores que ainda não foram desafiados, que
+     * não estão jogando e que estão on-line
+     */
+    public boolean setDesafio(Jogador jogadorRemoto, Jogador jogadorLocal) {
+
+        try {
+
+            //altera o atributo desafiado do jogador local
+            PreparedStatement stmt1 = conn.prepareStatement("UPDATE jogodavelha.jogador SET desafiado=? WHERE id_jogador = ? "
+                    + "and online = true and jogando = false");
+            stmt1.setBoolean(1, true);
+            stmt1.setInt(2, jogadorLocal.getId());
+
+            //altera o atributo desafiado do jogador remoto para true (esta sendo desafiado)
+            PreparedStatement stmt2 = conn.prepareStatement("UPDATE jogodavelha.jogador SET desafiado=? WHERE id_jogador = ? "
+                    + "and online = true and desafiado = false and jogando = false");
+            stmt2.setBoolean(1, true);
+            stmt2.setInt(2, jogadorRemoto.getId());
+            /*
+             PreparedStatement stmt3 = conn.prepareStatement("INSERT INTO JOGODAVELHA.MONITOR (IDJOGADOR1, IDJOGADOR2, JOGADAJOGADOR1X,"
+             + " JOGADAJOGADOR1Y, JOGADAJOGADOR2X, JOGADAJOGADOR2Y, JOGADOR1JOGOU, JOGADOR2JOGOU, ACEITEJOGOJOGADOR1,"
+             + " ACEITEJOGOJOGADOR2, MENSAGEMDOJOGO, MENSAGEMDOJOGADOR, MENSAGEMDEDESAFIO, INICIAJOGANDOJOGADOR1,"
+             + " INICIAJOGANDOJOGADOR2, PONTOSJOGADOR1, PONTOSJOGADOR2)" +
+             "	VALUES (NULL, NULL, NULL, NULL, NULL, NULL, DEFAULT, DEFAULT, DEFAULT, DEFAULT, NULL, NULL, NULL, DEFAULT, DEFAULT, NULL, NULL)");
+             */
+
+            return true;
+
+
+        } catch (SQLException ex) {
+            Logger.getLogger(JogadorDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean setMesaJogador1(Jogador jogadorLocal, int idMesa) throws SQLException {
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement("UPDATE jogodavelha.mesa"
+                    + "   SET idjogador1=?, jogadajogador1x=?, jogadajogador1y=?, "
+                    + "       jogadajogador2x=?, jogadajogador2y=?, jogador1jogou=?, jogador2jogou=?, "
+                    + "       aceitejogojogador1=?, aceitejogojogador2=?, mensagemdojogo=?, "
+                    + "       mensagemdojogador=?, mensagemdedesafio=?, iniciajogandojogador1=?, "
+                    + "       iniciajogandojogador2=?, bloqueadoparaconfiguracao=?, bloqueadoparadesafio=?, "
+                    + "       pontosjogador1=?, pontosjogador2=?"
+                    + " WHERE id_mesa = ? and idjogador1 = 0");
+
+            stmt.setInt(1, jogadorLocal.getId());   //id do jogador local
+            stmt.setString(2, "");
+            stmt.setString(3, "");
+            stmt.setString(4, "");
+            stmt.setString(5, "");
+            stmt.setBoolean(6, false);
+            stmt.setBoolean(7, false);
+            stmt.setBoolean(8, false);
+            stmt.setBoolean(9, false);
+            stmt.setString(10, "");
+            stmt.setString(11, "");
+            stmt.setString(12, "");
+            stmt.setBoolean(13, false);
+            stmt.setBoolean(14, false);
+            stmt.setBoolean(15, false);
+            stmt.setBoolean(16, false);
+            stmt.setInt(17, 0);
+            stmt.setInt(18, 0);
+            stmt.setInt(19, idMesa);     //linka com a mesa local
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(JogadorDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+
+    public boolean setMesaJogador2(Jogador jogadorLocal, int idMesa) throws SQLException {
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement("UPDATE jogodavelha.mesa"
+                    + "   SET idjogador2=?, jogadajogador1x=?, jogadajogador1y=?, "
+                    + "       jogadajogador2x=?, jogadajogador2y=?, jogador1jogou=?, jogador2jogou=?, "
+                    + "       aceitejogojogador1=?, aceitejogojogador2=?, mensagemdojogo=?, "
+                    + "       mensagemdojogador=?, mensagemdedesafio=?, iniciajogandojogador1=?, "
+                    + "       iniciajogandojogador2=?, bloqueadoparaconfiguracao=?, bloqueadoparadesafio=?, "
+                    + "       pontosjogador1=?, pontosjogador2=?"
+                    + " WHERE id_mesa = ? and idjogador2 = 0");
+
+            stmt.setInt(1, jogadorLocal.getId());   //id do jogador local
+            stmt.setString(2, "");
+            stmt.setString(3, "");
+            stmt.setString(4, "");
+            stmt.setString(5, "");
+            stmt.setBoolean(6, false);
+            stmt.setBoolean(7, false);
+            stmt.setBoolean(8, false);
+            stmt.setBoolean(9, false);
+            stmt.setString(10, "");
+            stmt.setString(11, "");
+            stmt.setString(12, "");
+            stmt.setBoolean(13, false);
+            stmt.setBoolean(14, false);
+            stmt.setBoolean(15, false);
+            stmt.setBoolean(16, false);
+            stmt.setInt(17, 0);
+            stmt.setInt(18, 0);
+            stmt.setInt(19, idMesa);     //linka com a mesa local
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(JogadorDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+
+    public boolean cancelarMesaJogador1(Jogador jogadorLocal) throws SQLException {
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement("UPDATE jogodavelha.mesa"
+                    + "   SET idjogador1=?, jogadajogador1x=?, jogadajogador1y=?, "
+                    + "       jogadajogador2x=?, jogadajogador2y=?, jogador1jogou=?, jogador2jogou=?, "
+                    + "       aceitejogojogador1=?, aceitejogojogador2=?, mensagemdojogo=?, "
+                    + "       mensagemdojogador=?, mensagemdedesafio=?, iniciajogandojogador1=?, "
+                    + "       iniciajogandojogador2=?, bloqueadoparaconfiguracao=?, bloqueadoparadesafio=?, "
+                    + "       pontosjogador1=?, pontosjogador2=?"
+                    + " WHERE idjogador1 = ?");
+
+            stmt.setInt(1, 0);   //cancela a referência ao id
+            stmt.setString(2, "");
+            stmt.setString(3, "");
+            stmt.setString(4, "");
+            stmt.setString(5, "");
+            stmt.setBoolean(6, false);
+            stmt.setBoolean(7, false);
+            stmt.setBoolean(8, false);
+            stmt.setBoolean(9, false);
+            stmt.setString(10, "");
+            stmt.setString(11, "");
+            stmt.setString(12, "");
+            stmt.setBoolean(13, false);
+            stmt.setBoolean(14, false);
+            stmt.setBoolean(15, false);
+            stmt.setBoolean(16, false);
+            stmt.setInt(17, 0);
+            stmt.setInt(18, 0);
+            stmt.setInt(19, jogadorLocal.getId());
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(JogadorDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+
+    public boolean cancelarMesaJogador2(Jogador jogadorLocal) throws SQLException {
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement("UPDATE jogodavelha.mesa"
+                    + "   SET idjogador2=?, jogadajogador1x=?, jogadajogador1y=?, "
+                    + "       jogadajogador2x=?, jogadajogador2y=?, jogador1jogou=?, jogador2jogou=?, "
+                    + "       aceitejogojogador1=?, aceitejogojogador2=?, mensagemdojogo=?, "
+                    + "       mensagemdojogador=?, mensagemdedesafio=?, iniciajogandojogador1=?, "
+                    + "       iniciajogandojogador2=?, bloqueadoparaconfiguracao=?, bloqueadoparadesafio=?, "
+                    + "       pontosjogador1=?, pontosjogador2=?"
+                    + " WHERE idjogador2 = ?");
+
+            stmt.setInt(1, 0);   //cancela a referência ao id
+            stmt.setString(2, "");
+            stmt.setString(3, "");
+            stmt.setString(4, "");
+            stmt.setString(5, "");
+            stmt.setBoolean(6, false);
+            stmt.setBoolean(7, false);
+            stmt.setBoolean(8, false);
+            stmt.setBoolean(9, false);
+            stmt.setString(10, "");
+            stmt.setString(11, "");
+            stmt.setString(12, "");
+            stmt.setBoolean(13, false);
+            stmt.setBoolean(14, false);
+            stmt.setBoolean(15, false);
+            stmt.setBoolean(16, false);
+            stmt.setInt(17, 0);
+            stmt.setInt(18, 0);
+            stmt.setInt(19, jogadorLocal.getId());
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(JogadorDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+        }
+    }
+/*
+    public List loadAllMesas() throws SQLException {
+
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        String sql;
+
+        try {
+            sql = "SELECT * FROM JOGODAVELHA.mesa ORDER BY login ASC ";
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            List mesas = new LinkedList<Mesa>();
+
+            while (rs.next()) {
+                mesas.add(getMesa(rs));
+            }
+            return mesas;
+        } catch (SQLException ex) {
+            Logger.getLogger(JogadorDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ps != null) {
+                ps.close();
+            }
+        }
+
+    }
+*/
+   /* private Mesa getMesa(ResultSet rs) {
+        Mesa mesa = new Mesa();
+        mesa.set
+    }*/
 }

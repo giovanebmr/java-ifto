@@ -7,16 +7,23 @@ package br.edu.ifto.aula9.jogodavelha.beans;
 import java.io.Serializable;
 
 /**
- *
  * @author Giovane
  */
-public class Jogador implements Serializable{
+public class Jogador implements Serializable{  
+    
     private int id;
     private String nome;
     private String login;
     private String email;
     private String senha;
-    private boolean isAdministrador;
+    private boolean administrador;
+    private boolean jogando;
+    private boolean desafiado;
+    /**aguardando desafio*/
+    private boolean mesaSelecionada;  
+    /**id da mesa*/
+    private int idMesaSelecionada;  
+    
 
     public Jogador(String nome, String login, String email, String senha) {
         this.nome = nome;
@@ -27,6 +34,22 @@ public class Jogador implements Serializable{
     
 
     public Jogador() {
+    }
+
+    public boolean isMesaSelecionada() {
+        return mesaSelecionada;
+    }
+
+    public void setMesaSelecionada(boolean mesaSelecionada) {
+        this.mesaSelecionada = mesaSelecionada;
+    }
+
+    public int getIdMesaSelecionada() {
+        return idMesaSelecionada;
+    }
+
+    public void setIdMesaSelecionada(int idMesaSelecionada) {
+        this.idMesaSelecionada = idMesaSelecionada;
     }
 
     
@@ -72,12 +95,37 @@ public class Jogador implements Serializable{
     }
 
     public boolean isIsAdministrador() {
-        return isAdministrador;
+        return administrador;
     }
 
     public void setIsAdministrador(boolean isAdministrador) {
-        this.isAdministrador = isAdministrador;
+        this.administrador = isAdministrador;
     }
-    
+
+    public boolean isAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(boolean administrador) {
+        this.administrador = administrador;
+    }
+
+    public boolean isJogando() {
+        return jogando;
+    }
+
+    public void setJogando(boolean jogando) {
+        this.jogando = jogando;
+    }
+
+    public boolean isDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(boolean desafiado) {
+        this.desafiado = desafiado;
+    }
+
+   
     
 }
