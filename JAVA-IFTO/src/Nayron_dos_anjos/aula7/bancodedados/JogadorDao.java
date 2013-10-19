@@ -108,4 +108,38 @@ public class JogadorDao extends DBConnection {
 
         stmt.execute();
     }
+     /**
+     *
+     * @return
+     * @throws SQLException
+     */
+    public List<Mensagem> listaMensagens() throws SQLException {
+
+        String sql = "select * from NAYRON.MENSAGEM3";
+        PreparedStatement stmt;
+        ResultSet rs;
+
+        List jogadores = new LinkedList<>();
+
+        stmt = conn.prepareStatement(sql);
+        rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            jogadores.add(getMensagem(rs));
+        }
+
+        return jogadores;
+    }
+     public Mensagem getMensagem(ResultSet rs) throws SQLException {
+
+        Mensagem mensagem = new Mensagem();
+        
+      mensagem.setId(rs.getInt("id"));
+      mensagem.setApelido(rs.getString("apelido"));
+      mensagem.setMensagem(rs.getString("mensagem"));
+      mensagem.setHorarioMensagem(rs.getTimestamp("horarioMensagem").toString());
+
+        return mensagem;
+
+    }
 }
