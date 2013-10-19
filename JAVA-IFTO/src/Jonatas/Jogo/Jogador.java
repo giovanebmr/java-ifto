@@ -20,6 +20,19 @@ public class Jogador implements java.io.Serializable{
     public Jogador(){
     
     }
+
+    public Jogador(String Nome, String Login, String Email, String Senha) {
+        this.Nome = Nome;
+        this.Login = Login;
+        this.Email = Email;
+        this.Senha = Senha;
+    }
+
+   
+    
+    public void setId(int id){
+        this.Id = id;
+    }
     
     public void setId(int id){
         this.Id = id;

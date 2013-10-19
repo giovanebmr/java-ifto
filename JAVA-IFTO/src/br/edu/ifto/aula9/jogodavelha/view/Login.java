@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
@@ -18,12 +19,10 @@ import org.apache.commons.codec.digest.DigestUtils;
  */
 public class Login extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CadastroDeJogador
-     */
-    public Login() {
+    Login(TelaInicial aThis) {
         initComponents();
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.telaInicial = aThis;
     }
 
     /**
@@ -50,6 +49,12 @@ public class Login extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(102, 153, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Senha:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Adobe Caslon Pro", 0, 14), new java.awt.Color(255, 255, 255))); // NOI18N
+
+        senha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                pressionarEnter(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -155,17 +160,47 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoLogar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoLogar
+        logar();
+    }//GEN-LAST:event_botaoLogar
+
+    private void pressionarEnter(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pressionarEnter
+        //se pressionar enter
+        if(evt.getKeyCode() == 10){
+            logar();
+        }
+    }//GEN-LAST:event_pressionarEnter
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField email;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPasswordField senha;
+    // End of variables declaration//GEN-END:variables
+    private TelaInicial telaInicial;
+    private JogadorDao dao;
+    private Jogador jogador;
+
+    private void logar() {
         try {
-            JogadorDao dao = new JogadorDao();
-            Jogador jogador = new Jogador();
+            dao = new JogadorDao();
+            jogador = new Jogador();
 
             String loginOrEmail = email.getText();
 
-            if ((jogador = dao.validUserAndPassword(loginOrEmail, DigestUtils.sha512Hex(new String(senha.getPassword())))) != null) {
+            if ((jogador = dao.getValidUserAndPassword(loginOrEmail, DigestUtils.sha512Hex(new String(senha.getPassword())))) != null) {
+                //Se o login for ok
                 if (jogador.getId() != 0) {
-                    JOptionPane.showMessageDialog(rootPane, "Login Ok!", "Aviso", 1);
+                    //abre a tela de desafios
+                    TelaDeDesafios desafios = new TelaDeDesafios(jogador);
+                    desafios.setVisible(rootPaneCheckingEnabled);
+                    //fecha a tela de login
                     dispose();
-                }else{
+                    //fecha a tela inicial
+                    this.telaInicial.dispose();
+                } else {
                     JOptionPane.showMessageDialog(rootPane, "Login ou senha inválidos!", "Aviso", 2);
                 }
             } else {
@@ -176,50 +211,5 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Ocorreu um erro no sistema!", "Aviso", 0);
         }
 
-
-    }//GEN-LAST:event_botaoLogar
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Login().setVisible(true);
-            }
-        });
     }
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField email;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPasswordField senha;
-    // End of variables declaration//GEN-END:variables
 }

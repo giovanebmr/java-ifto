@@ -180,6 +180,7 @@ public class FormCadastroJogador extends javax.swing.JFrame {
             Logger.getLogger(FormCadastroJogadorJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
 

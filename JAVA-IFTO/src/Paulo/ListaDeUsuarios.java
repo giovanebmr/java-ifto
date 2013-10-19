@@ -2,10 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package giovane;
+package Paulo;
 
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,16 +12,18 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Giovane
+ * @author aluno
  */
 public class ListaDeUsuarios extends javax.swing.JFrame {
 
     /**
      * Creates new form ListaDeUsuarios
      */
-    public ListaDeUsuarios() throws SQLException, ClassNotFoundException {
+    public ListaDeUsuarios() throws ClassNotFoundException, SQLException {
         initComponents();
-        preencheUsuarios();
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        preencheDeUsuarios();
+        
     }
 
     /**
@@ -35,34 +36,66 @@ public class ListaDeUsuarios extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Listar Usuários");
+
+        jPanel1.setBackground(new java.awt.Color(51, 255, 0));
+
+        jLabel1.setText("Usuários: ");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBox1MouseClicked(evt);
+            }
+        });
 
-        jLabel1.setText("Usuarios:");
+        jButton1.setText("Alterar");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
+        jButton2.setText("Deletar");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addComponent(jLabel1)
-                .addGap(61, 61, 61)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(179, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap(227, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(68, 68, 68)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addContainerGap(212, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
+                .addComponent(jButton1)
+                .addGap(18, 18, 18)
+                .addComponent(jButton2)
+                .addContainerGap(100, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -78,6 +111,43 @@ public class ListaDeUsuarios extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jComboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1MouseClicked
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        try {
+            Usuario u = usuarios.get(jComboBox1.getSelectedIndex());
+            JogadorDao dao = new JogadorDao();
+            
+            if (dao.deletarUsuario(u.getId())){
+                
+                JOptionPane.showMessageDialog(rootPane, "Usuario Deletado.");
+                preencheDeUsuarios();
+        }
+        
+            else{
+                JOptionPane.showMessageDialog(rootPane, "Usuario não Deletado.");
+            }
+            
+           
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(ListaDeUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        int selectedIndex = jComboBox1.getSelectedIndex();
+        
+        Usuario u = usuarios.get(jComboBox1.getSelectedIndex());
+        
+        new UpdateUsuario(u, this).setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -108,35 +178,41 @@ public class ListaDeUsuarios extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 try {
                     new ListaDeUsuarios().setVisible(true);
-                } catch (SQLException | ClassNotFoundException ex) {
+                } catch (ClassNotFoundException | SQLException ex) {
                     Logger.getLogger(ListaDeUsuarios.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
-    private void preencheUsuarios() throws SQLException, ClassNotFoundException {
+    private List<Usuario> usuarios;
+            
+    public void preencheDeUsuarios() throws ClassNotFoundException, SQLException {
 
-        JogadorDao2 jdao = new JogadorDao2();
+        JogadorDao uDao = new JogadorDao();
 
-        List<Usuario> jogadores = jdao.listaUsuarios();
+        usuarios = uDao.listaUsuario();
 
-        String vetor[] = new String[10];
-        
-        
+        String vetor[] = new String[usuarios.size()];
+
         int i = 0;
-        
-        for (Usuario j : jogadores) {
-            vetor[i] = j.getNome();
+
+        for (Usuario u : usuarios) {
+
+            vetor[i] = u.getNome();
             i++;
+
         }
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(vetor));
     }

@@ -1,3 +1,4 @@
+
 create schema jogodavelha
 
 set search_path to jogodavelha
@@ -15,16 +16,31 @@ email varchar(80),
 senha varchar(20)
 )
 
-------------------------------------------
--------------- atual --------------------- DigestUtils.sha512Hex
 
-create table jogador(
-id INT not null primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+ ALTER TABLE JOGODAVELHA.JOGADOR
+{
+ senha SET DATA TYPE VARCHAR (256)
+}
+  
+------------------------------------------
+-------------- atual --------------------- 
+
+create table JOGODAVELHA.JOGADOR(
+id_jogador INT not null primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
 nome varchar(80),
 login varchar(30),
 email varchar(80),
-senha varchar(512)
+senha varchar(128),
+online boolean default false,
+jogando boolean default false,
+desafiado boolean default false
 )
+
+SELECT * FROM JOGODAVELHA.JOGADOR INNER JOIN JOGODAVELHA.MESA
+     ON id_jogador = idjogador1;
+
+------------------------------------------
+-------------- INNER JOIN --------------------- 
 
 create table jogador(
 id INT not null primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
@@ -46,23 +62,24 @@ dataMensagem date,
 horarioMensagem time
 )
 
-create table monitor(
-    id INT not null primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    idJogador1 integer,
-    idJogador2 integer,
-    jogadaJogador1x char(1),
-    jogadaJogador1y char(1),
-    jogadaJogador2x char(1),
-    jogadaJogador2y char(1),
+create table jogodavelha.mesa(
+    id_mesa INT not null primary key GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    idJogador1 integer default 0,
+    idJogador2 integer default 0,
+    jogadaJogador1x varchar(1) default '',
+    jogadaJogador1y varchar(1) default '',
+    jogadaJogador2x varchar(1) default '',
+    jogadaJogador2y varchar(1) default '',
     jogador1jogou boolean default false,
     jogador2jogou boolean default false,
     aceiteJogoJogador1 boolean default false,
     aceiteJogoJogador2 boolean default false,
-    mensagemDoJogo varchar(255),
-    mensagemDoJogador varchar(255),
-    mensagemDeDesafio varchar(255),
+    mensagemDoJogo varchar(255) default '',
+    mensagemDoJogador varchar(255) default '',
+    mensagemDeDesafio varchar(255) default '',
     iniciaJogandoJogador1 boolean default false,
     iniciaJogandoJogador2 boolean default false,
+    bloqueadoParaConfiguracao boolean default false,  
     bloqueadoParaDesafio boolean default false,  
     pontosJogador1 integer,
     pontosJogador2 integer
@@ -130,3 +147,8 @@ Exemplos
 
 
 create schema TESTE
+
+http://db.apache.org/derby/docs/10.7/pt_BR/ref/
+
+
+http://translate.google.com.br/translate?hl=pt-BR&sl=en&u=http://db.apache.org/derby/docs/10.7/ref/rrefsqlj81859.html&prev=/search%3Fq%3DALTER%2BTABLE%2Bapache%2Bderby

@@ -8,7 +8,7 @@ package br.edu.ifto.aula9.jogodavelha.beans;
  *
  * @author Giovane
  */
-public class MonitorJogo {
+public class Mesa {
 
     //para verificar quais jogadores estão jogando
     private int idJogador1;
