@@ -4,6 +4,7 @@
  */
 package Emanuelle.aula7.banco;
 
+import Emanuelle.aula7.banco.Mensagem;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,8 +23,6 @@ public class JogadorDao extends DBConnection {
     public JogadorDao() throws ClassNotFoundException, SQLException {
         this.conn = this.getMyDBConnection();
     }
-    
-    
 
     public void addJogador(Usuario jogador) throws SQLException {
         String SQL = "insert into Emanuelle.jogador (nome,login,email,senha) values (?,?,?,?)";
@@ -58,6 +57,33 @@ public class JogadorDao extends DBConnection {
         }
         return jogadores;
     }
+    
+     public List<Mensagem> listarMensagem() throws SQLException {
+
+        String sql = "select * from EMANUELLE.MENSAGEM";
+        PreparedStatement stat;
+        ResultSet rs;
+
+        List mensagem = new LinkedList<>();
+
+        stat = conn.prepareStatement(sql);
+        rs = stat.executeQuery();
+
+        while (rs.next()) {
+
+            mensagem.add(getObj(rs));
+        }
+        return mensagem;
+    }
+     public Mensagem getObj(ResultSet rs) throws SQLException {
+        Mensagem msn = new Mensagem();
+
+        msn.setApelido(rs.getString("apelido"));
+        msn.setMensagem(rs.getString("mensagem"));
+        msn.setHorarioMensagem(rs.getString("horarioMensagem"));
+
+        return msn;
+     }
 
     public Usuario getObjeto(ResultSet rs) throws SQLException {
         Usuario jogador = new Usuario();
@@ -69,14 +95,14 @@ public class JogadorDao extends DBConnection {
         return jogador;
 
     }
-    
-    public void deleteUsuario (int id){
+
+    public void deleteUsuario(int id) {
         String SQL = "DELETE from Emanuelle.jogador WHERE id_jogador= ?";
-        
+
     }
-    
-    public boolean atulizarUsuario (Usuario jogador) throws SQLException{
-       String SQL = " UPDATE Emanuelle.jogador SET nome=?, login=?, email=?," + " WHERE id_jogador=?, ";
+
+    public boolean atulizarUsuario(Usuario jogador) throws SQLException {
+        String SQL = " UPDATE Emanuelle.jogador SET nome=?, login=?, email=?," + " WHERE id_jogador=?, ";
 
 
         PreparedStatement stat = conn.prepareStatement(SQL);
@@ -86,9 +112,19 @@ public class JogadorDao extends DBConnection {
         stat.setString(3, jogador.getEmail());
         stat.setString(4, jogador.getSenha());
         stat.setInt(5, jogador.getId());
-        
+
         return stat.executeUpdate() > 0;
-        
+
     }
-    
+
+    public void addMensagem(Mensagem mensagem) throws SQLException {
+        String SQL = "insert into Emanuelle.mensagem3 (APELIDO, MENSAGEM, HORARIOMENSAGEM) VALUES (?,?, CURRENT_TIMESTAMP)";
+        try (PreparedStatement stat = conn.prepareStatement(SQL)) {
+            stat.setString(1, mensagem.getApelido());
+            stat.setString(2, mensagem.getMensagem());
+            stat.execute();
+
+        }
+
+    }
 }

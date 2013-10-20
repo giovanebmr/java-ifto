@@ -38,7 +38,44 @@ public class JogadorDao extends DBConnection{
         stmt.execute();
         stmt.close();
     }
+    public void addMensagem(Mensagem mensagem) throws SQLException{
+        
+        String SQL = "INSERT INTO JONATAS.MENSAGEM "
+               + "(IDREMETENTE, IDDESTINATARIO, MENSAGEM, HORARIOMENSAGEM) "
+               + "VALUES ( ?, ?, ?, CURRENT_TIMESTAMP)";
+	
+                
+        PreparedStatement stmt = conn.prepareStatement(SQL);
+        
+        stmt.setString(1, mensagem.getRemetente());
+        stmt.setString(2, mensagem.getDestinatario());
+        stmt.setString(3, mensagem.getMensagem());
+               
+        stmt.execute();
+        stmt.close();
+    }
     
+     public List <Mensagem> listaMensagem() throws SQLException{
+     
+     String sql = "SELECT * FROM JONATAS.MENSAGEM";
+     PreparedStatement stmt;
+     ResultSet rs;
+     List mensagens = new LinkedList<>();
+     Mensagem mensagem;
+     
+     stmt = conn.prepareStatement(sql);
+     
+     rs = stmt.executeQuery();
+     
+     while(rs.next()) {
+     
+         mensagens.add(getObjetoMensagem(rs));
+         
+     }
+        return mensagens;
+  }
+   
+
      public List <Jogador> listaUsuarios() throws SQLException{
      
      String sql = "SELECT * FROM JONATAS.JOGADOR";
@@ -97,6 +134,17 @@ public class JogadorDao extends DBConnection{
       jogador.setEmail(rs.getString("email"));
       jogador.setLogin(rs.getString("login"));
       return jogador;
+  }
+  
+  public Mensagem getObjetoMensagem(ResultSet rs) throws SQLException{
+  
+      Mensagem mensagem = new Mensagem();
+      mensagem.setId(rs.getInt("id"));
+      mensagem.setMensagem(rs.getString("mensagem")); 
+      mensagem.setRemetente(rs.getString("idRemetente"));
+      mensagem.setDestinatario(rs.getString("idDestinatario"));
+      mensagem.setHoraMensagem(rs.getString("horariomensagem"));
+      return mensagem;
   }
 }
 
