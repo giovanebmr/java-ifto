@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class DBConnection {
     
     public Connection getMyDBConnection()throws ClassNotFoundException, SQLException{
-         return DriverManager.getConnection("jdbc:derby://localhost:1527/Jogo","Emanuelle","123456");
+         return DriverManager.getConnection("jdbc:postgresql://pgsql.inkdobrasil.com.br:5432/inkdobrasil","inkdobrasil","javaifto");
     }
 
     
