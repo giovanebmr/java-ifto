@@ -181,7 +181,7 @@ public class Batepapo extends javax.swing.JFrame {
                 Mensagem mensagem = it.next();
                 jTextArea1.setText(jTextArea1.getText() + "\n" + mensagem.getHorarioMensagem() + " - " + mensagem.getApelido() + " fala: " + mensagem.getMensagem());
             }
-
+            jTextField1.setText("");
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Batepapo.class.getName()).log(Level.SEVERE, null, ex);
         }
