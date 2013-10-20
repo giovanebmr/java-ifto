@@ -4,7 +4,6 @@
  */
 package Emanuelle.aula7.banco;
 
-import Emanuelle.aula7.banco.Mensagem;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -117,14 +116,49 @@ public class JogadorDao extends DBConnection {
 
     }
 
-    public void addMensagem(Mensagem mensagem) throws SQLException {
-        String SQL = "insert into Emanuelle.mensagem3 (APELIDO, MENSAGEM, HORARIOMENSAGEM) VALUES (?,?, CURRENT_TIMESTAMP)";
-        try (PreparedStatement stat = conn.prepareStatement(SQL)) {
-            stat.setString(1, mensagem.getApelido());
-            stat.setString(2, mensagem.getMensagem());
-            stat.execute();
+   public void addMensagens(Mensagem mensagem) throws SQLException  {
+        String SQL = "insert into Emanuelle.MENSAGEM3(apelido,mensagem,horarioMensagem) values (?,?,CURRENT_TIMESTAMP)";
+        PreparedStatement stmt = conn.prepareStatement(SQL);
 
+        stmt.setString(1, mensagem.getApelido());
+        stmt.setString(2, mensagem.getMensagem());
+        
+
+        stmt.execute();
+    }
+     /**
+     *
+     * @return
+     * @throws SQLException
+     */
+    public List<Mensagem> listaMensagens() throws SQLException {
+
+        String sql = "select * from Emanuelle.MENSAGEM3";
+        PreparedStatement stmt;
+        ResultSet rs;
+
+        List jogadores = new LinkedList<>();
+
+        stmt = conn.prepareStatement(sql);
+        rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            jogadores.add(getMensagem(rs));
         }
+
+        return jogadores;
+    }
+     public Mensagem getMensagem(ResultSet rs) throws SQLException {
+
+       Mensagem mensagem = new Mensagem();
+        
+      mensagem.setId(rs.getInt("id"));
+      mensagem.setApelido(rs.getString("apelido"));
+      mensagem.setMensagem(rs.getString("mensagem"));
+      mensagem.setHorarioMensagem(rs.getTimestamp("horarioMensagem").toString());
+
+        return mensagem;
 
     }
 }
+

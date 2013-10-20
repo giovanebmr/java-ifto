@@ -162,13 +162,13 @@ public class JogadorDao extends DBConnection{
   public void sendMensagem(Mensagem mensagem) throws SQLException{
   
       String SQL = "INSERT INTO TAYLA.MENSAGEM"
-              + "(REMETENTE, DESTINATARIO, MENSAGEM, HORAMENSAGEM)"
+              + "(REMETENTE, DESTINATARIO, MENSAGEM, HORARIOMENSAGEM)"
               + "VALUES(?, ?, ?, CURRENT_TIMESTAMP)";
       
       try (PreparedStatement stmt = conn.prepareStatement(SQL)){
       
           stmt.setString(1, mensagem.getRemetente());
-          stmt.setString(2, mensagem.getRemetente());
+          stmt.setString(2, mensagem.getDestinatario());
           stmt.setString(3, mensagem.getMensagem());               
       }     
   
@@ -181,7 +181,7 @@ public class JogadorDao extends DBConnection{
       mensagem.setRemetente(rs.getString("remetente"));
       mensagem.setDestinatario(rs.getString("destinatario"));
       mensagem.setMensagem(rs.getString("mensagem"));
-      mensagem.setHoraMensagem(rs.getString("horamensagem"));
+      mensagem.setHoraMensagem(rs.getString("horariomensagem"));
       
       return mensagem;
   }
