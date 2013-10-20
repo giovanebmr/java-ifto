@@ -5,8 +5,14 @@
 package Nayron_dos_anjos.aula7.bancodedados;
 
 import br.edu.ifto.aula15.trabalhofinal.batepapo.telas.*;
+import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -19,6 +25,8 @@ public class Batepapo extends javax.swing.JFrame {
      */
     public Batepapo() {
         initComponents();
+        Thread t = new Mensagens(jTextArea1);
+        t.start();
     }
 
     /**
@@ -36,7 +44,7 @@ public class Batepapo extends javax.swing.JFrame {
         jList1 = new javax.swing.JList();
         jPanel1 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        Enviar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -71,12 +79,16 @@ public class Batepapo extends javax.swing.JFrame {
             .addGap(0, 63, Short.MAX_VALUE)
         );
 
-        jTextField1.setText("jTextField1");
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField1KeyPressed(evt);
+            }
+        });
 
-        jButton1.setText("enviar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Enviar.setText("enviar");
+        Enviar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                EnviarActionPerformed(evt);
             }
         });
 
@@ -122,12 +134,12 @@ public class Batepapo extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
                             .addComponent(jTextField1))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane2)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE))))
+                            .addComponent(Enviar, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -141,10 +153,10 @@ public class Batepapo extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(Enviar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         pack();
@@ -154,13 +166,51 @@ public class Batepapo extends javax.swing.JFrame {
         new Creditos().setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_jMenu2MouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       JogadorDao dao = new JogadorDao();
-       Mensagem m = new Mensagem();
-       m.setApelido("Náyron");
-       m.setMensagem(mensag);
-       
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void EnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnviarActionPerformed
+        try {
+            JogadorDao dao = new JogadorDao();
+            Mensagem m = new Mensagem();
+            m.setApelido("Náyron");
+            m.setMensagem(jTextField1.getText());
+            dao.addMensagem(m);
+
+            List<Mensagem> msgs = dao.listaMensagens();
+            jTextArea1.setText("");
+
+            for (Iterator<Mensagem> it = msgs.iterator(); it.hasNext();) {
+                Mensagem mensagem = it.next();
+                jTextArea1.setText(jTextArea1.getText() + "\n" + mensagem.getHorarioMensagem() + " - " + mensagem.getApelido() + " fala: " + mensagem.getMensagem());
+            }
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Batepapo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_EnviarActionPerformed
+
+    private void jTextField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyPressed
+        if (evt.getKeyCode() == 10) {
+            try {
+                JogadorDao dao = new JogadorDao();
+                Mensagem m = new Mensagem();
+                m.setApelido("Náyron");
+                m.setMensagem(jTextField1.getText());
+                dao.addMensagem(m);
+
+                List<Mensagem> msgs = dao.listaMensagens();
+                jTextArea1.setText("");
+
+                for (Iterator<Mensagem> it = msgs.iterator(); it.hasNext();) {
+                    Mensagem mensagem = it.next();
+                    jTextArea1.setText(jTextArea1.getText() + "\n" + mensagem.getHorarioMensagem() + " - " + mensagem.getApelido() + " fala: " + mensagem.getMensagem());
+                }
+
+
+            } catch (ClassNotFoundException | SQLException ex) {
+                Logger.getLogger(Batepapo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jTextField1KeyPressed
 
     /**
      * @param args the command line arguments
@@ -197,7 +247,7 @@ public class Batepapo extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton Enviar;
     private javax.swing.JList jList1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

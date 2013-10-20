@@ -98,7 +98,7 @@ public class JogadorDao extends DBConnection {
         return jogador;
 
     }
-    public void addUsuario(Mensagem mensagem) throws SQLException  {
+    public void addMensagem(Mensagem mensagem) throws SQLException  {
         String SQL = "insert into NAYRON.MENSAGEM3(apelido,mensagem,horarioMensagem) values (?,?,CURRENT_TIMESTAMP)";
         PreparedStatement stmt = conn.prepareStatement(SQL);
 
@@ -119,16 +119,16 @@ public class JogadorDao extends DBConnection {
         PreparedStatement stmt;
         ResultSet rs;
 
-        List jogadores = new LinkedList<>();
+        List mensagens = new LinkedList<>();
 
         stmt = conn.prepareStatement(sql);
         rs = stmt.executeQuery();
 
         while (rs.next()) {
-            jogadores.add(getMensagem(rs));
+            mensagens.add(getMensagem(rs));
         }
 
-        return jogadores;
+        return mensagens;
     }
      public Mensagem getMensagem(ResultSet rs) throws SQLException {
 
